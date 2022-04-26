@@ -1,0 +1,24 @@
+Name: helper
+
+Log:
+    Level: debug
+    Format: json
+    Development: true
+
+HTTP:
+    Host: 0.0.0.0
+    Port: 8080
+
+Database:
+    Engine: postgres
+    Name: ensiklopedi
+    Host: localhost
+    Port: 5432
+    Username: rahmatwibowo
+    Password: password
+JWT:
+    Algorithm: HS256
+    Key: secret
+    Exp: 5
+File:
+    StoragePath: ./static
