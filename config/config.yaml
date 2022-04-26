@@ -11,10 +11,10 @@ HTTP:
 
 Database:
     Engine: postgres
-    Name: ensiklopedi
+    Name: helper
     Host: localhost
     Port: 5432
-    Username: rahmatwibowo
+    Username: postgres
     Password: password
 JWT:
     Algorithm: HS256
