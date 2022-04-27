@@ -12,7 +12,7 @@ HTTP:
 Database:
     Engine: postgres
     Name: helper
-    Host: localhost
+    Host: postgresdb
     Port: 5432
     Username: postgres
     Password: password

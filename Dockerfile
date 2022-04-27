@@ -1,4 +1,4 @@
-FROM golang:1.16.5 as builder
+FROM golang:1.17 as builder
 # Define build env
 ENV GOOS linux
 ENV CGO_ENABLED 0
@@ -21,4 +21,4 @@ COPY ./config/config.yaml config.yaml
 # Expose port
 EXPOSE 8080
 # Exec built binary
-CMD ./app
+CMD ./app runserver --config=./config.yaml

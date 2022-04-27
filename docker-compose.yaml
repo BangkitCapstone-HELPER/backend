@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  postgresdb:
+    image: postgres:latest
+    container_name: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=helper
+      - DATABASE_HOST=postgresdb
+    ports:
+      - '1234:5432'
+    networks:
+      - learning
+  app:
+    container_name: helper_backend
+    tty: true
+    build: .
+    ports:
+      - 8000:8080
+    restart: on-failure
+    depends_on:
+      - postgresdb
+    networks:
+      - learning
+volumes:
+  db-data:
+# Networks to be created to facilitate communication between containers
+networks:
+  learning:
+    driver: bridge
