@@ -128,6 +128,10 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    docker-compose up
    ```
+3. Open 
+    ```curl
+    localhost:8000/docs/
+    ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
