@@ -25,6 +25,61 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/v1/menu/": {
+            "get": {
+                "description": "Get all menu",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Get all menu",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.MenuDTO"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new menu with the input paylod",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Create a new menu",
+                "parameters": [
+                    {
+                        "description": "create menu",
+                        "name": "menu_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateMenuRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.MenuDTO"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/user/": {
             "get": {
                 "description": "Get User By ID",
@@ -175,6 +230,37 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "dto.ContentDTO": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ItemDTO"
+                    }
+                },
+                "kind": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.CreateMenuRequestDTO": {
+            "type": "object",
+            "required": [
+                "title"
+            ],
+            "properties": {
+                "day_menus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.DayMenuDTO"
+                    }
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.CreateUserRequestDTO": {
             "type": "object",
             "required": [
@@ -197,6 +283,31 @@ const docTemplate = `{
                     "minLength": 8
                 },
                 "phone_number": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.DayMenuDTO": {
+            "type": "object",
+            "properties": {
+                "contents": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ContentDTO"
+                    }
+                },
+                "day": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ItemDTO": {
+            "type": "object",
+            "properties": {
+                "name": {
                     "type": "string"
                 }
             }
@@ -225,6 +336,23 @@ const docTemplate = `{
                 },
                 "user": {
                     "$ref": "#/definitions/dto.UserDTO"
+                }
+            }
+        },
+        "dto.MenuDTO": {
+            "type": "object",
+            "properties": {
+                "day_menus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.DayMenuDTO"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
                 }
             }
         },

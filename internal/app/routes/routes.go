@@ -8,7 +8,7 @@ import (
 var Module = fx.Options(
 	fx.Provide(NewUserRoutes),
 	fx.Provide(NewRoutes),
-	// fx.Provide(NewTransactionRoutes),
+	fx.Provide(NewMenuRoutes),
 )
 
 // Routes contains multiple routes
@@ -23,10 +23,11 @@ type Route interface {
 // NewRoutes sets up routes
 func NewRoutes(
 	userRoutes UserRoute,
+	menuRoutes MenuRoute,
 ) Routes {
 	return Routes{
 		userRoutes,
-		// transactionRoutes,
+		menuRoutes,
 	}
 }
 

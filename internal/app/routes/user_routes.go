@@ -5,7 +5,9 @@ import (
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/controllers"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/lib"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/middlewares"
+	"github.com/labstack/echo/v4"
 	"go.uber.org/fx"
+	"net/http"
 )
 
 // PolicyRouteParams defines route for policy
@@ -27,7 +29,11 @@ func NewUserRoutes(pr userRouteParams) UserRoute {
 
 // Setup PolicyRouteImpl
 func (a *userRouteParams) Setup() {
-
+	s := echo.New()
+	s.GET("/", func(ctx echo.Context) error {
+		data := "Hello from /index"
+		return ctx.String(http.StatusOK, data)
+	})
 	r := a.Handler.RouterV1().Group("/user")
 	r.POST("/register", a.Controller.CreateUser)
 	r.GET("/:id", a.Controller.GetUserById, a.AuthMiddleware.Setup(constants.PermissionNonAdmin))
