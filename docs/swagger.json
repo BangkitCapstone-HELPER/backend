@@ -18,10 +18,69 @@
     "host": "localhost:8080",
     "basePath": "/",
     "paths": {
+        "/api/v1/article/": {
+            "get": {
+                "description": "Get all article",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "Get all article",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ArticleDTO"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new article with the input paylod",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "Create a new article",
+                "parameters": [
+                    {
+                        "description": "create article",
+                        "name": "article_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ArticleDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ArticleDTO"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/menu/": {
             "get": {
                 "description": "Get all menu",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
+                    "application/json",
                     "application/json"
                 ],
                 "tags": [
@@ -223,6 +282,34 @@
         }
     },
     "definitions": {
+        "dto.ArticleDTO": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "enclosure": {
+                    "type": "object",
+                    "additionalProperties": true
+                },
+                "guid": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "pubDate": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.ContentDTO": {
             "type": "object",
             "properties": {

@@ -8,4 +8,6 @@ import (
 var Module = fx.Options(
 	fx.Provide(NewUserRepo),
 	fx.Provide(NewMenuRepo),
+	fx.Provide(NewArticleRepo),
+	fx.Provide(NewTransactionRepo),
 )

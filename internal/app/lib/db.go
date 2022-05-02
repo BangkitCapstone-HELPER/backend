@@ -21,6 +21,7 @@ func NewDatabase(cfg config.DatabaseConfig) Database {
 	db.AutoMigrate(&dao.Content{})
 	db.AutoMigrate(&dao.DayMenu{})
 	db.AutoMigrate(&dao.Menu{})
+	db.AutoMigrate(&dao.Article{})
 	return Database{
 		Db: db,
 	}

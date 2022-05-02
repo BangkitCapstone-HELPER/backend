@@ -9,5 +9,6 @@ var Module = fx.Options(
 	fx.Provide(NewDatabase),
 	fx.Provide(NewHTTPHandler),
 	fx.Provide(NewHash),
+	fx.Provide(NewCache),
 	fx.Provide(NewJWT),
 )

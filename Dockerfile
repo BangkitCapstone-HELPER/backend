@@ -22,3 +22,19 @@ COPY ./config/config.yaml config.yaml
 EXPOSE 8080
 # Exec built binary
 CMD ./app runserver --config=./config.yaml
+#
+#FROM golang:1.17
+## Add a work directory
+#WORKDIR /app
+## Cache and install dependencies
+#COPY go.mod go.sum ./
+#RUN go mod download
+## Copy app files
+#COPY . .
+## Build app
+#RUN go build -o app
+#COPY ./config/config.yaml config.yaml
+## Expose port
+#EXPOSE 8080
+## Exec built binary
+#CMD ./app runserver --config=./config.yaml

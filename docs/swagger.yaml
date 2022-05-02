@@ -1,5 +1,24 @@
 basePath: /
 definitions:
+  dto.ArticleDTO:
+    properties:
+      description:
+        additionalProperties: true
+        type: object
+      enclosure:
+        additionalProperties: true
+        type: object
+      guid:
+        type: string
+      link:
+        items:
+          type: string
+        type: array
+      pubDate:
+        type: string
+      title:
+        type: string
+    type: object
   dto.ContentDTO:
     properties:
       items:
@@ -119,10 +138,49 @@ info:
   title: Helper Backend
   version: "1.0"
 paths:
+  /api/v1/article/:
+    get:
+      description: Get all article
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.ArticleDTO'
+            type: array
+      summary: Get all article
+      tags:
+      - article
+    post:
+      consumes:
+      - application/json
+      description: Create a new article with the input paylod
+      parameters:
+      - description: create article
+        in: body
+        name: article_info
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ArticleDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ArticleDTO'
+      summary: Create a new article
+      tags:
+      - article
   /api/v1/menu/:
     get:
+      consumes:
+      - application/json
       description: Get all menu
       produces:
+      - application/json
       - application/json
       responses:
         "200":

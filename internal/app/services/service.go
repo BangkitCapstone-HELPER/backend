@@ -8,4 +8,5 @@ import (
 var Module = fx.Options(
 	fx.Provide(NewUserService),
 	fx.Provide(NewMenuService),
+	fx.Provide(NewArticleService),
 )

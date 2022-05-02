@@ -1,8 +1,12 @@
 package repo
 
 import (
+	"context"
+	"encoding/json"
 	"errors"
+	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm/clause"
+	"time"
 
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/constants"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/lib"
@@ -25,6 +29,7 @@ type MenuRepo interface {
 type menuRepoParams struct {
 	fx.In
 	lib.Database
+	Redis lib.Cache
 }
 
 func NewMenuRepo(params menuRepoParams) MenuRepo {
@@ -46,13 +51,29 @@ func (p *menuRepoParams) GetMenu(id uint64) (dao.Menu, error) {
 
 func (p *menuRepoParams) GetAllMenu() ([]dao.Menu, error) {
 	menus := []dao.Menu{}
+	context := context.Background()
+	val, err := p.Redis.Cache.Get(context, "menu").Result()
+	if err == redis.Nil {
+		if err := p.Db.Preload("DayMenus.Contents.Items").Preload(clause.Associations).Find(&menus).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return []dao.Menu{}, constants.DatabaseRecordNotFound
+			}
 
-	if err := p.Db.Preload("DayMenus.Contents.Items").Preload(clause.Associations).Find(&menus).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return []dao.Menu{}, constants.DatabaseRecordNotFound
+			return []dao.Menu{}, err
 		}
-
-		return []dao.Menu{}, err
+		json, err2 := json.Marshal(menus)
+		if err2 != nil {
+			return []dao.Menu{}, err2
+		}
+		err3 := p.Redis.Cache.Set(context, "menu", json, 10*time.Second).Err()
+		if err3 != nil {
+			return []dao.Menu{}, err3
+		}
+	} else {
+		err = json.Unmarshal([]byte(val), &menus)
+		if err != nil {
+			return []dao.Menu{}, err
+		}
 	}
 	return menus, nil
 }
