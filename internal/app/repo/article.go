@@ -45,7 +45,7 @@ func (p *articleRepoParams) GetAllArticle() ([]dao.Article, error) {
 		if err2 != nil {
 			return []dao.Article{}, err2
 		}
-		err3 := p.Redis.Cache.Set(context, "article", json, 10*time.Second).Err()
+		err3 := p.Redis.Cache.Set(context, "article", json, 10*time.Hour).Err()
 		if err3 != nil {
 			return []dao.Article{}, err3
 		}

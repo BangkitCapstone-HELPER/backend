@@ -4,13 +4,17 @@ import "github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao"
 
 type (
 	CreateMenuRequestDTO struct {
-		Title    string       `json:"title" validate:"required"`
-		DayMenus []DayMenuDTO `json:"day_menus"`
+		Title       string       `json:"title"`
+		Price       int          `json:"price"`
+		Description string       `json:"description"`
+		DayMenus    []DayMenuDTO `json:"day_menus"`
 	}
 	MenuDTO struct {
-		ID       uint         `json:"id"`
-		Title    string       `json:"title"`
-		DayMenus []DayMenuDTO `json:"day_menus"`
+		ID          uint         `json:"id"`
+		Title       string       `json:"title"`
+		Price       int          `json:"price"`
+		Description string       `json:"description"`
+		DayMenus    []DayMenuDTO `json:"day_menus"`
 	}
 
 	DayMenuDTO struct {
@@ -60,8 +64,10 @@ func (c CreateMenuRequestDTO) ToDAO() dao.Menu {
 	}
 
 	return dao.Menu{
-		Title:    c.Title,
-		DayMenus: dayMenus,
+		Title:       c.Title,
+		Price:       c.Price,
+		Description: c.Description,
+		DayMenus:    dayMenus,
 	}
 }
 
@@ -95,8 +101,10 @@ func NewMenuDTO(menu dao.Menu) MenuDTO {
 		dayMenus = append(dayMenus, newDayMenu)
 	}
 	return MenuDTO{
-		ID:       menu.ID,
-		Title:    menu.Title,
-		DayMenus: dayMenus,
+		ID:          menu.ID,
+		Title:       menu.Title,
+		Price:       menu.Price,
+		Description: menu.Description,
+		DayMenus:    dayMenus,
 	}
 }

@@ -18,7 +18,7 @@ RUN apk add --no-cache ca-certificates
 # Copy built binary from builder
 COPY --from=builder app .
 COPY ./config/config.yaml config.yaml
-# Expose port
+# Expose portz
 EXPOSE 8080
 # Exec built binary
 CMD ./app runserver --config=./config.yaml

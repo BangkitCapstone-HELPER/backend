@@ -79,3 +79,26 @@ func NewTransactionDTO(transaction dao.Transaction) TransactionDTO {
 		UserID:           transaction.UserID,
 	}
 }
+
+func ToTransactionDTO(transaction dao.Transaction) TransactionDTO {
+	transactionItems := []TransactionItemDTO{}
+
+	for _, transactionItem := range transaction.TransactionItems {
+		newTransactionItem := TransactionItemDTO{
+			IsMorning:   transactionItem.IsMorning,
+			IsNoon:      transactionItem.IsNoon,
+			IsAfternoon: transactionItem.IsAfternoon,
+			MenuID:      transactionItem.MenuID,
+			Count:       transactionItem.Count,
+		}
+
+		transactionItems = append(transactionItems, newTransactionItem)
+	}
+
+	return TransactionDTO{
+		TransactionItems: transactionItems,
+		Status:           transaction.Status,
+		Address:          transaction.Address,
+		UserID:           transaction.UserID,
+	}
+}

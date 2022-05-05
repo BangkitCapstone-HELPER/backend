@@ -64,7 +64,6 @@ func (c menuControllerParams) CreateMenu(ctx echo.Context) error {
 // @Tags menu
 // @Accept  json
 // @Produce  json
-// @Produce  json
 // @Success 200 {object} []dto.MenuDTO
 // @Router /api/v1/menu/ [get]
 func (c menuControllerParams) GetMenu(ctx echo.Context) error {
@@ -74,27 +73,6 @@ func (c menuControllerParams) GetMenu(ctx echo.Context) error {
 		return err
 	}
 	result, err := c.Service.GetAllMenu()
-	//context := context.Background()
-	//val, err := c.Redis.Cache.Get(context, "menu").Result()
-	//if err == redis.Nil {
-	//	result, err = c.Service.GetAllMenu()
-	//	if err != nil {
-	//		return err
-	//	}
-	//	json, err2 := json.Marshal(result)
-	//	if err2 != nil {
-	//		return err2
-	//	}
-	//	err3 := c.Redis.Cache.Set(context, "menu", json, 10*time.Second).Err()
-	//	if err3 != nil {
-	//		return err3
-	//	}
-	//} else {
-	//	err = json.Unmarshal([]byte(val), &result)
-	//	if err != nil {
-	//		return err
-	//	}
-	//}
 	var resp lib.Response
 	if err != nil {
 		resp = lib.Response{

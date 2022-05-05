@@ -28,6 +28,9 @@ const docTemplate = `{
         "/api/v1/article/": {
             "get": {
                 "description": "Get all article",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -87,7 +90,6 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "produces": [
-                    "application/json",
                     "application/json"
                 ],
                 "tags": [
@@ -134,6 +136,99 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.MenuDTO"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/transaction/": {
+            "get": {
+                "description": "Get all transaction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "Get all transaction",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.TransactionDTO"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new transaction with the input paylod",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "Create a new transaction",
+                "parameters": [
+                    {
+                        "description": "create transaction",
+                        "name": "transaction_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateTransactionRequestDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TransactionDTO"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "update transaction",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transaction"
+                ],
+                "summary": "update transaction",
+                "parameters": [
+                    {
+                        "description": "create transaction",
+                        "name": "transaction_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateTransactionDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.TransactionDTO"
+                            }
                         }
                     }
                 }
@@ -333,9 +428,6 @@ const docTemplate = `{
         },
         "dto.CreateMenuRequestDTO": {
             "type": "object",
-            "required": [
-                "title"
-            ],
             "properties": {
                 "day_menus": {
                     "type": "array",
@@ -343,8 +435,31 @@ const docTemplate = `{
                         "$ref": "#/definitions/dto.DayMenuDTO"
                     }
                 },
+                "description": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                },
                 "title": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.CreateTransactionRequestDTO": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "transactionItems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.TransactionItemDTO"
+                    }
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -352,6 +467,7 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
+                "image",
                 "name",
                 "password"
             ],
@@ -360,6 +476,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "email": {
+                    "type": "string"
+                },
+                "image": {
                     "type": "string"
                 },
                 "name": {
@@ -435,10 +554,73 @@ const docTemplate = `{
                         "$ref": "#/definitions/dto.DayMenuDTO"
                     }
                 },
+                "description": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
+                "price": {
+                    "type": "integer"
+                },
                 "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.TransactionDTO": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "amount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "transactionItems": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.TransactionItemDTO"
+                    }
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.TransactionItemDTO": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "is_afternoon": {
+                    "type": "boolean"
+                },
+                "is_morning": {
+                    "type": "boolean"
+                },
+                "is_noon": {
+                    "type": "boolean"
+                },
+                "menu_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.UpdateTransactionDTO": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
                     "type": "string"
                 }
             }
@@ -454,6 +636,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "integer"
+                },
+                "image": {
+                    "type": "string"
                 },
                 "isAdmin": {
                     "type": "boolean"
@@ -482,7 +667,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "my-app-65ly4.ondigitalocean.app",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Helper Backend",

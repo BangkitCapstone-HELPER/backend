@@ -65,7 +65,7 @@ func (p *menuRepoParams) GetAllMenu() ([]dao.Menu, error) {
 		if err2 != nil {
 			return []dao.Menu{}, err2
 		}
-		err3 := p.Redis.Cache.Set(context, "menu", json, 10*time.Second).Err()
+		err3 := p.Redis.Cache.Set(context, "menu", json, 10*time.Hour).Err()
 		if err3 != nil {
 			return []dao.Menu{}, err3
 		}

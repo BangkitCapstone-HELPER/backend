@@ -61,7 +61,8 @@ func (c articleControllerParams) CreateArticle(ctx echo.Context) error {
 // @Summary Get all article
 // @Description Get all article
 // @Tags article
-// @Produce  json
+// @Accept       json
+// @Produce      json
 // @Success 200 {object} []dto.ArticleDTO
 // @Router /api/v1/article/ [get]
 func (c articleControllerParams) GetArticle(ctx echo.Context) error {

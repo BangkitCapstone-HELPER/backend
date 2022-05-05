@@ -34,16 +34,31 @@ definitions:
         items:
           $ref: '#/definitions/dto.DayMenuDTO'
         type: array
+      description:
+        type: string
+      price:
+        type: integer
       title:
         type: string
-    required:
-    - title
+    type: object
+  dto.CreateTransactionRequestDTO:
+    properties:
+      address:
+        type: string
+      transactionItems:
+        items:
+          $ref: '#/definitions/dto.TransactionItemDTO'
+        type: array
+      user_id:
+        type: integer
     type: object
   dto.CreateUserRequestDTO:
     properties:
       address:
         type: string
       email:
+        type: string
+      image:
         type: string
       name:
         type: string
@@ -54,6 +69,7 @@ definitions:
         type: string
     required:
     - email
+    - image
     - name
     - password
     type: object
@@ -97,9 +113,50 @@ definitions:
         items:
           $ref: '#/definitions/dto.DayMenuDTO'
         type: array
+      description:
+        type: string
       id:
         type: integer
+      price:
+        type: integer
       title:
+        type: string
+    type: object
+  dto.TransactionDTO:
+    properties:
+      address:
+        type: string
+      amount:
+        type: integer
+      id:
+        type: integer
+      status:
+        type: string
+      transactionItems:
+        items:
+          $ref: '#/definitions/dto.TransactionItemDTO'
+        type: array
+      user_id:
+        type: integer
+    type: object
+  dto.TransactionItemDTO:
+    properties:
+      count:
+        type: integer
+      is_afternoon:
+        type: boolean
+      is_morning:
+        type: boolean
+      is_noon:
+        type: boolean
+      menu_id:
+        type: integer
+    type: object
+  dto.UpdateTransactionDTO:
+    properties:
+      id:
+        type: integer
+      status:
         type: string
     type: object
   dto.UserDTO:
@@ -110,6 +167,8 @@ definitions:
         type: string
       id:
         type: integer
+      image:
+        type: string
       isAdmin:
         type: boolean
       name:
@@ -124,7 +183,7 @@ definitions:
       status:
         type: integer
     type: object
-host: localhost:8080
+host: my-app-65ly4.ondigitalocean.app
 info:
   contact:
     email: support@swagger.io
@@ -140,6 +199,8 @@ info:
 paths:
   /api/v1/article/:
     get:
+      consumes:
+      - application/json
       description: Get all article
       produces:
       - application/json
@@ -181,7 +242,6 @@ paths:
       description: Get all menu
       produces:
       - application/json
-      - application/json
       responses:
         "200":
           description: OK
@@ -213,6 +273,67 @@ paths:
       summary: Create a new menu
       tags:
       - menu
+  /api/v1/transaction/:
+    get:
+      consumes:
+      - application/json
+      description: Get all transaction
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.TransactionDTO'
+            type: array
+      summary: Get all transaction
+      tags:
+      - transaction
+    patch:
+      consumes:
+      - application/json
+      description: update transaction
+      parameters:
+      - description: create transaction
+        in: body
+        name: transaction_info
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateTransactionDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.TransactionDTO'
+            type: array
+      summary: update transaction
+      tags:
+      - transaction
+    post:
+      consumes:
+      - application/json
+      description: Create a new transaction with the input paylod
+      parameters:
+      - description: create transaction
+        in: body
+        name: transaction_info
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateTransactionRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.TransactionDTO'
+      summary: Create a new transaction
+      tags:
+      - transaction
   /api/v1/user/:
     get:
       consumes:

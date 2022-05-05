@@ -10,6 +10,7 @@ type User struct {
 	Name        string `gorm:"not null;size:255"`
 	Email       string `gorm:"index;unique;not null"`
 	Password    string `gorm:"not null;size:255"`
+	Image       string `gorm:"size:255"`
 	PhoneNumber string `gorm:"size:255"`
 	IsAdmin     bool   `gorm:"default:0"`
 	Address     string `gorm:"not null;size:255"`
