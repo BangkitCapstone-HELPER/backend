@@ -8,6 +8,7 @@ import (
 	transaction_status "github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao/trxStatus"
 	"go.uber.org/fx"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type TransactionRepo interface {
@@ -27,7 +28,7 @@ func NewTransactionRepo(params transactionRepoParams) TransactionRepo {
 func (t transactionRepoParams) GetTransactionByID(trxId uint) (dao.Transaction, error) {
 	trx := dao.Transaction{}
 
-	if err := t.Db.First(&trx, trxId).Error; err != nil {
+	if err := t.Db.Preload("Menus.DayMenus.Items").Preload(clause.Associations).First(&trx, trxId).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return dao.Transaction{}, constants.DatabaseRecordNotFound
 		}
@@ -40,7 +41,7 @@ func (t transactionRepoParams) GetTransactionByID(trxId uint) (dao.Transaction, 
 func (t transactionRepoParams) GetTransactionByUID(userId uint) ([]dao.Transaction, error) {
 	trx := []dao.Transaction{}
 
-	if err := t.Db.Where("id_user = ? ", userId).Find(&trx).Error; err != nil {
+	if err := t.Db.Preload("Menus.DayMenus.Items").Preload(clause.Associations).Where("id_user = ? ", userId).Find(&trx).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return []dao.Transaction{}, constants.DatabaseRecordNotFound
 		}

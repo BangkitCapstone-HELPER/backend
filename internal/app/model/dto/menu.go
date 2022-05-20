@@ -18,13 +18,8 @@ type (
 	}
 
 	DayMenuDTO struct {
-		Image    string       `json:"image"`
-		Day      string       `json:"day"`
-		Contents []ContentDTO `json:"contents"`
-	}
-
-	ContentDTO struct {
-		Kind  string    `json:"kind"`
+		Image string    `json:"image"`
+		Day   string    `json:"day"`
 		Items []ItemDTO `json:"items"`
 	}
 
@@ -41,25 +36,16 @@ func (c CreateMenuRequestDTO) ToDAO() dao.Menu {
 			Day:   dayMenu.Day,
 			Image: dayMenu.Image,
 		}
-		contents := []dao.Content{}
+		items := []dao.Item{}
 
-		for _, content := range dayMenu.Contents {
-			newContent := dao.Content{
-				Kind: content.Kind,
+		for _, item := range dayMenu.Items {
+			newItem := dao.Item{
+				Name: item.Name,
 			}
-
-			items := []dao.Item{}
-
-			for _, item := range content.Items {
-				newItem := dao.Item{
-					Name: item.Name,
-				}
-				items = append(items, newItem)
-			}
-			newContent.Items = items
-			contents = append(contents, newContent)
+			items = append(items, newItem)
 		}
-		newDayMenu.Contents = contents
+
+		newDayMenu.Items = items
 		dayMenus = append(dayMenus, newDayMenu)
 	}
 
@@ -79,25 +65,16 @@ func NewMenuDTO(menu dao.Menu) MenuDTO {
 			Day:   dayMenu.Day,
 			Image: dayMenu.Image,
 		}
-		contents := []ContentDTO{}
 
-		for _, content := range dayMenu.Contents {
-			newContent := ContentDTO{
-				Kind: content.Kind,
+		items := []ItemDTO{}
+
+		for _, item := range dayMenu.Items {
+			newItem := ItemDTO{
+				Name: item.Name,
 			}
-
-			items := []ItemDTO{}
-
-			for _, item := range content.Items {
-				newItem := ItemDTO{
-					Name: item.Name,
-				}
-				items = append(items, newItem)
-			}
-			newContent.Items = items
-			contents = append(contents, newContent)
+			items = append(items, newItem)
 		}
-		newDayMenu.Contents = contents
+		newDayMenu.Items = items
 		dayMenus = append(dayMenus, newDayMenu)
 	}
 	return MenuDTO{

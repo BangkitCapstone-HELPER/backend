@@ -39,5 +39,6 @@ func (a *userRouteParams) Setup() {
 	r.GET("/:id", a.Controller.GetUserById, a.AuthMiddleware.Setup(constants.PermissionNonAdmin))
 	r.GET("/info", a.Controller.GetUser)
 	r.POST("/", a.Controller.CreateUser)
+	r.PATCH("/", a.Controller.UpdateUser)
 	r.POST("/login", a.Controller.Login)
 }

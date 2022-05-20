@@ -2,7 +2,6 @@ package services
 
 import (
 	"encoding/json"
-
 	errors "github.com/BangkitCapstone-HELPER/backend/internal/app/error"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/lib"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao"
@@ -25,6 +24,7 @@ type UserService interface {
 	GetUserById(id uint64) (dao.User, error)
 	GetUserByEmail(email string) (dao.User, error)
 	CreateUser(user dto.CreateUserRequestDTO) (dto.UserDTO, error)
+	UpdateUser(userId uint, userDTO dto.UpdateUserDTO) (dto.UserDTO, error)
 	Login(loginRequest dto.LoginRequest) (dto.LoginResponse, error)
 }
 
@@ -58,6 +58,20 @@ func (u *userServiceParams) CreateUser(user dto.CreateUserRequestDTO) (dto.UserD
 	}
 	newUser, err := u.UserRepo.CreateUser(user.ToDAO())
 	return dto.NewUserDTO(newUser), err
+}
+
+func (u *userServiceParams) UpdateUser(userId uint, userDTO dto.UpdateUserDTO) (dto.UserDTO, error) {
+	var updateMap map[string]interface{}
+	data, _ := json.Marshal(userDTO)
+	json.Unmarshal(data, &updateMap)
+	for k, v := range updateMap {
+		if v == nil {
+			delete(updateMap, k)
+		}
+	}
+
+	user, err := u.UserRepo.UpdateUser(uint64(userId), updateMap)
+	return dto.NewUserDTO(user), err
 }
 
 func (u *userServiceParams) Login(loginRequest dto.LoginRequest) (dto.LoginResponse, error) {

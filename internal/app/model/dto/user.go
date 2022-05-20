@@ -24,6 +24,12 @@ type (
 		IsAdmin     bool   `json:"isAdmin"`
 	}
 
+	UpdateUserDTO struct {
+		PhoneNumber string `json:"phone_number"`
+		Address     string `json:"address"`
+		IsAdmin     bool   `json:"isAdmin"`
+	}
+
 	LoginRequest struct {
 		Email    string `json:"email" validate:"required,email"`
 		Password string `json:"password" validate:"required,gte=8"`

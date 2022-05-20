@@ -19,15 +19,6 @@ definitions:
       title:
         type: string
     type: object
-  dto.ContentDTO:
-    properties:
-      items:
-        items:
-          $ref: '#/definitions/dto.ItemDTO'
-        type: array
-      kind:
-        type: string
-    type: object
   dto.CreateMenuRequestDTO:
     properties:
       day_menus:
@@ -45,10 +36,22 @@ definitions:
     properties:
       address:
         type: string
-      transactionItems:
-        items:
-          $ref: '#/definitions/dto.TransactionItemDTO'
-        type: array
+      amount:
+        type: integer
+      count:
+        type: integer
+      is_afternoon:
+        type: boolean
+      is_morning:
+        type: boolean
+      is_noon:
+        type: boolean
+      lat:
+        type: number
+      lng:
+        type: number
+      menu_id:
+        type: integer
       user_id:
         type: integer
     type: object
@@ -75,14 +78,14 @@ definitions:
     type: object
   dto.DayMenuDTO:
     properties:
-      contents:
-        items:
-          $ref: '#/definitions/dto.ContentDTO'
-        type: array
       day:
         type: string
       image:
         type: string
+      items:
+        items:
+          $ref: '#/definitions/dto.ItemDTO'
+        type: array
     type: object
   dto.ItemDTO:
     properties:
@@ -128,20 +131,9 @@ definitions:
         type: string
       amount:
         type: integer
-      id:
-        type: integer
-      status:
-        type: string
-      transactionItems:
-        items:
-          $ref: '#/definitions/dto.TransactionItemDTO'
-        type: array
-      user_id:
-        type: integer
-    type: object
-  dto.TransactionItemDTO:
-    properties:
       count:
+        type: integer
+      id:
         type: integer
       is_afternoon:
         type: boolean
@@ -149,7 +141,17 @@ definitions:
         type: boolean
       is_noon:
         type: boolean
+      lat:
+        type: number
+      lng:
+        type: number
+      menu:
+        $ref: '#/definitions/dto.MenuDTO'
       menu_id:
+        type: integer
+      status:
+        type: string
+      user_id:
         type: integer
     type: object
   dto.UpdateTransactionDTO:
@@ -157,6 +159,15 @@ definitions:
       id:
         type: integer
       status:
+        type: string
+    type: object
+  dto.UpdateUserDTO:
+    properties:
+      address:
+        type: string
+      isAdmin:
+        type: boolean
+      phone_number:
         type: string
     type: object
   dto.UserDTO:
@@ -236,20 +247,44 @@ paths:
       tags:
       - article
   /api/v1/menu/:
-    get:
+    delete:
       consumes:
       - application/json
-      description: Get all menu
+      description: Delete menu by id
+      parameters:
+      - description: menu id
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            items:
-              $ref: '#/definitions/dto.MenuDTO'
-            type: array
-      summary: Get all menu
+            $ref: '#/definitions/dto.MenuDTO'
+      summary: Delete menu by id
+      tags:
+      - menu
+    get:
+      consumes:
+      - application/json
+      description: Get menu by id
+      parameters:
+      - description: menu id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.MenuDTO'
+      summary: Get menu by id
       tags:
       - menu
     post:
@@ -408,6 +443,36 @@ paths:
           schema:
             $ref: '#/definitions/lib.Response'
       summary: Get User
+      tags:
+      - user
+    patch:
+      consumes:
+      - application/json
+      description: Update User
+      parameters:
+      - description: user token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: update user
+        in: body
+        name: user_info
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lib.Response'
+      summary: Update User
       tags:
       - user
   /api/v1/user/login:

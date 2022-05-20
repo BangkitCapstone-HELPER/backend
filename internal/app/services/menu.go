@@ -12,8 +12,10 @@ type menuServiceParams struct {
 }
 
 type MenuService interface {
-	CreateMenu(user dto.CreateMenuRequestDTO) (dto.MenuDTO, error)
+	CreateMenu(menu dto.CreateMenuRequestDTO) (dto.MenuDTO, error)
 	GetAllMenu() ([]dto.MenuDTO, error)
+	GetMenu(id uint64) (dto.MenuDTO, error)
+	DeleteMenu(id uint64) (dto.MenuDTO, error)
 }
 
 func NewMenuService(params menuServiceParams) MenuService {
@@ -35,4 +37,16 @@ func (u *menuServiceParams) GetAllMenu() ([]dto.MenuDTO, error) {
 	}
 
 	return result, err
+}
+
+func (u *menuServiceParams) GetMenu(id uint64) (dto.MenuDTO, error) {
+	menu, err := u.MenuRepo.GetMenu(id)
+
+	return dto.NewMenuDTO(menu), err
+}
+
+func (u *menuServiceParams) DeleteMenu(id uint64) (dto.MenuDTO, error) {
+	menu, err := u.MenuRepo.DeleteMenu(id)
+
+	return dto.NewMenuDTO(menu), err
 }

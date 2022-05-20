@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"time"
+
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm/clause"
-	"time"
 
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/constants"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/lib"
@@ -20,10 +21,9 @@ type MenuRepo interface {
 	GetAllMenu() ([]dao.Menu, error)
 	CreateMenu(user dao.Menu) (dao.Menu, error)
 	CreateDayMenu(dayMenu dao.DayMenu) (dao.DayMenu, error)
-	CreateContent(content dao.Content) (dao.Content, error)
 	CreateItem(item dao.Item) (dao.Item, error)
 	//UpdateUser(userId uint64, updateMap map[string]interface{}) (dao.User, error)
-	//DeleteMenu(id uint64)()
+	DeleteMenu(id uint64) (dao.Menu, error)
 }
 
 type menuRepoParams struct {
@@ -49,12 +49,25 @@ func (p *menuRepoParams) GetMenu(id uint64) (dao.Menu, error) {
 	return menu, nil
 }
 
+func (p *menuRepoParams) DeleteMenu(id uint64) (dao.Menu, error) {
+	menu := dao.Menu{}
+
+	if err := p.Db.Delete(&menu, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return dao.Menu{}, constants.DatabaseRecordNotFound
+		}
+
+		return dao.Menu{}, err
+	}
+	return menu, nil
+}
+
 func (p *menuRepoParams) GetAllMenu() ([]dao.Menu, error) {
 	menus := []dao.Menu{}
 	context := context.Background()
 	val, err := p.Redis.Cache.Get(context, "menu").Result()
 	if err == redis.Nil {
-		if err := p.Db.Preload("DayMenus.Contents.Items").Preload(clause.Associations).Find(&menus).Error; err != nil {
+		if err := p.Db.Preload("DayMenus.Items").Preload(clause.Associations).Find(&menus).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return []dao.Menu{}, constants.DatabaseRecordNotFound
 			}
@@ -95,16 +108,6 @@ func (p *menuRepoParams) CreateDayMenu(dayMenu dao.DayMenu) (dao.DayMenu, error)
 	}
 
 	return dayMenu, nil
-
-}
-
-func (p *menuRepoParams) CreateContent(content dao.Content) (dao.Content, error) {
-
-	if err := p.Db.Create(&content).Error; err != nil {
-		return dao.Content{}, err
-	}
-
-	return content, nil
 
 }
 

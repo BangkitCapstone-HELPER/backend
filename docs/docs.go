@@ -85,7 +85,7 @@ const docTemplate = `{
         },
         "/api/v1/menu/": {
             "get": {
-                "description": "Get all menu",
+                "description": "Get menu by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -95,15 +95,21 @@ const docTemplate = `{
                 "tags": [
                     "menu"
                 ],
-                "summary": "Get all menu",
+                "summary": "Get menu by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "menu id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/dto.MenuDTO"
-                            }
+                            "$ref": "#/definitions/dto.MenuDTO"
                         }
                     }
                 }
@@ -129,6 +135,36 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/dto.CreateMenuRequestDTO"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.MenuDTO"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete menu by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "menu"
+                ],
+                "summary": "Delete menu by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "menu id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -347,6 +383,51 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "patch": {
+                "description": "Update User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "update user",
+                        "name": "user_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateUserDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/lib.Response"
+                        }
+                    }
+                }
             }
         },
         "/api/v1/user/login": {
@@ -412,20 +493,6 @@ const docTemplate = `{
                 }
             }
         },
-        "dto.ContentDTO": {
-            "type": "object",
-            "properties": {
-                "items": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.ItemDTO"
-                    }
-                },
-                "kind": {
-                    "type": "string"
-                }
-            }
-        },
         "dto.CreateMenuRequestDTO": {
             "type": "object",
             "properties": {
@@ -452,11 +519,29 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
-                "transactionItems": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.TransactionItemDTO"
-                    }
+                "amount": {
+                    "type": "integer"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "is_afternoon": {
+                    "type": "boolean"
+                },
+                "is_morning": {
+                    "type": "boolean"
+                },
+                "is_noon": {
+                    "type": "boolean"
+                },
+                "lat": {
+                    "type": "number"
+                },
+                "lng": {
+                    "type": "number"
+                },
+                "menu_id": {
+                    "type": "integer"
                 },
                 "user_id": {
                     "type": "integer"
@@ -496,17 +581,17 @@ const docTemplate = `{
         "dto.DayMenuDTO": {
             "type": "object",
             "properties": {
-                "contents": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.ContentDTO"
-                    }
-                },
                 "day": {
                     "type": "string"
                 },
                 "image": {
                     "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.ItemDTO"
+                    }
                 }
             }
         },
@@ -577,27 +662,10 @@ const docTemplate = `{
                 "amount": {
                     "type": "integer"
                 },
-                "id": {
-                    "type": "integer"
-                },
-                "status": {
-                    "type": "string"
-                },
-                "transactionItems": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/dto.TransactionItemDTO"
-                    }
-                },
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "dto.TransactionItemDTO": {
-            "type": "object",
-            "properties": {
                 "count": {
+                    "type": "integer"
+                },
+                "id": {
                     "type": "integer"
                 },
                 "is_afternoon": {
@@ -609,7 +677,22 @@ const docTemplate = `{
                 "is_noon": {
                     "type": "boolean"
                 },
+                "lat": {
+                    "type": "number"
+                },
+                "lng": {
+                    "type": "number"
+                },
+                "menu": {
+                    "$ref": "#/definitions/dto.MenuDTO"
+                },
                 "menu_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "user_id": {
                     "type": "integer"
                 }
             }
@@ -621,6 +704,20 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateUserDTO": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "isAdmin": {
+                    "type": "boolean"
+                },
+                "phone_number": {
                     "type": "string"
                 }
             }

@@ -26,6 +26,7 @@ type UserController interface {
 	GetUserById(ctx echo.Context) error
 	CreateUser(ctx echo.Context) error
 	Login(ctx echo.Context) error
+	UpdateUser(ctx echo.Context) error
 }
 
 func NewUserController(params userControllerParams) UserController {
@@ -65,6 +66,36 @@ func (c userControllerParams) GetUser(ctx echo.Context) error {
 		}
 	}
 	return resp.JSON(ctx)
+}
+
+// CreateOrder godoc
+// @Summary Update User
+// @Description Update User
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param Authorization header string true "user token"
+// @Param user_info body dto.UpdateUserDTO true "update user"
+// @Success 200 {object} dto.UserDTO
+// @Failure 400 {object} lib.Response
+// @Router /api/v1/user/info [patch]
+func (c userControllerParams) UpdateUser(ctx echo.Context) error {
+	updateUser := dto.UpdateUserDTO{}
+	ctx.Bind(&updateUser)
+	token, _ := utils.ExtractToken(ctx)
+	user, err := utils.GetUserFromToken(token, c.JWT)
+
+	if err != nil {
+		return err
+	}
+	res, err := c.Service.UpdateUser(uint(user.ID), updateUser)
+	if err != nil {
+		return err
+	}
+	return lib.Response{
+		Status: http.StatusOK,
+		Data:   res,
+	}.JSON(ctx)
 }
 
 // CreateOrder godoc
