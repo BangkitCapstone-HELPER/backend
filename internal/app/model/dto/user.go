@@ -9,7 +9,7 @@ type (
 		Name        string `json:"name" validate:"required"`
 		Email       string `json:"email" validate:"required,email"`
 		Password    string `json:"password" validate:"required,gte=8"`
-		Image       string `json:"image" validate:"required"`
+		Image       string `json:"image"`
 		PhoneNumber string `json:"phone_number"`
 		Address     string `json:"address"`
 	}
@@ -33,6 +33,14 @@ type (
 	LoginRequest struct {
 		Email    string `json:"email" validate:"required,email"`
 		Password string `json:"password" validate:"required,gte=8"`
+	}
+	ChangePasswordRequest struct {
+		OldPassword string `json:"old_password"`
+		NewPassword string `json:"new_password" validate:"required,gte=8"`
+	}
+	ForgetPasswordRequest struct {
+		OldPassword string `json:"old_password"`
+		NewPassword string `json:"new_password" validate:"required,gte=8"`
 	}
 
 	LoginResponse struct {

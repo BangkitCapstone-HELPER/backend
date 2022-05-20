@@ -40,6 +40,7 @@ type (
 		Menu        MenuDTO                              `json:"menu"`
 		Lat         float64                              `json:"lat"`
 		Lng         float64                              `json:"lng"`
+		Remaining   int                                  `json:"remaining"`
 	}
 
 	UpdateTransactionDTO struct {
@@ -100,6 +101,7 @@ func NewTransactionDTO(transaction dao.Transaction) TransactionDTO {
 		Address:     transaction.Address,
 		UserID:      transaction.UserID,
 		Amount:      transaction.Amount,
+		Remaining:   transaction.Remaining,
 		Menu:        NewMenuDTO(transaction.Menu),
 	}
 }
@@ -129,6 +131,7 @@ func ToTransactionDTO(transaction dao.Transaction) TransactionDTO {
 		Address:     transaction.Address,
 		UserID:      transaction.UserID,
 		Amount:      transaction.Amount,
+		Remaining:   transaction.Remaining,
 		Menu:        NewMenuDTO(transaction.Menu),
 	}
 }

@@ -24,6 +24,6 @@ Cache:
 JWT:
     Algorithm: HS256
     Key: secret
-    Exp: 50000000
+    Exp: 50000
 File:
     StoragePath: ./static

@@ -14,6 +14,7 @@ import (
 type UserRepo interface {
 	GetUser(id uint64) (dao.User, error)
 	GetUserByEmail(email string) (dao.User, error)
+	ChangePassword(id uint64, password string) (dao.User, error)
 	CreateUser(user dao.User) (dao.User, error)
 	UpdateUser(userId uint64, updateMap map[string]interface{}) (dao.User, error)
 }
@@ -49,6 +50,14 @@ func (p *userRepoParams) GetUserByEmail(email string) (dao.User, error) {
 			return dao.User{}, e.ErrUserEmailNotFound
 		}
 
+		return dao.User{}, err
+	}
+	return user, nil
+}
+func (p *userRepoParams) ChangePassword(id uint64, password string) (dao.User, error) {
+
+	user := dao.User{}
+	if err := p.Db.Model(&dao.User{}).Where("id = ?", id).Updates(map[string]interface{}{"password": password}).Error; err != nil {
 		return dao.User{}, err
 	}
 	return user, nil

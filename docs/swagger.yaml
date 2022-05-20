@@ -19,6 +19,16 @@ definitions:
       title:
         type: string
     type: object
+  dto.ChangePasswordRequest:
+    properties:
+      new_password:
+        minLength: 8
+        type: string
+      old_password:
+        type: string
+    required:
+    - new_password
+    type: object
   dto.CreateMenuRequestDTO:
     properties:
       day_menus:
@@ -72,7 +82,6 @@ definitions:
         type: string
     required:
     - email
-    - image
     - name
     - password
     type: object
@@ -148,6 +157,8 @@ definitions:
       menu:
         $ref: '#/definitions/dto.MenuDTO'
       menu_id:
+        type: integer
+      remaining:
         type: integer
       status:
         type: string
@@ -270,21 +281,17 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get menu by id
-      parameters:
-      - description: menu id
-        in: path
-        name: id
-        required: true
-        type: string
+      description: Get all menu
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.MenuDTO'
-      summary: Get menu by id
+            items:
+              $ref: '#/definitions/dto.MenuDTO'
+            type: array
+      summary: Get all menu
       tags:
       - menu
     post:
@@ -369,6 +376,37 @@ paths:
       summary: Create a new transaction
       tags:
       - transaction
+  /api/v1/user:
+    patch:
+      consumes:
+      - application/json
+      description: Update User
+      parameters:
+      - description: user token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: update user
+        in: body
+        name: user_info
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lib.Response'
+      summary: Update User
+      tags:
+      - user
   /api/v1/user/:
     get:
       consumes:
@@ -445,36 +483,6 @@ paths:
       summary: Get User
       tags:
       - user
-    patch:
-      consumes:
-      - application/json
-      description: Update User
-      parameters:
-      - description: user token
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      - description: update user
-        in: body
-        name: user_info
-        required: true
-        schema:
-          $ref: '#/definitions/dto.UpdateUserDTO'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.UserDTO'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/lib.Response'
-      summary: Update User
-      tags:
-      - user
   /api/v1/user/login:
     post:
       consumes:
@@ -494,6 +502,33 @@ paths:
           schema:
             $ref: '#/definitions/dto.LoginResponse'
       summary: Login
+      tags:
+      - user
+  /api/v1/user/password/change:
+    post:
+      consumes:
+      - application/json
+      description: Change Password
+      parameters:
+      - description: user token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: create user
+        in: body
+        name: user_info
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ChangePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserDTO'
+      summary: Change Password
       tags:
       - user
 swagger: "2.0"

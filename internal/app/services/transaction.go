@@ -22,7 +22,9 @@ func NewTransactionService(params transactionServiceParams) TransactionService {
 }
 
 func (u *transactionServiceParams) CreateTransaction(transaction dto.CreateTransactionRequestDTO) (dto.TransactionDTO, error) {
-	newTransaction, err := u.TransactionRepo.CreateTransaction(transaction.ToDAO())
+	tempTransaction := transaction.ToDAO()
+	tempTransaction.Remaining = tempTransaction.Count
+	newTransaction, err := u.TransactionRepo.CreateTransaction(tempTransaction)
 	if err != nil {
 		return dto.TransactionDTO{}, err
 	}

@@ -28,4 +28,5 @@ func (a *menuRouteParams) Setup() {
 	r := a.Handler.RouterV1().Group("/menu")
 	r.POST("/", a.Controller.CreateMenu)
 	r.GET("/", a.Controller.GetMenu)
+	r.DELETE("/", a.Controller.DeleteMenuById)
 }

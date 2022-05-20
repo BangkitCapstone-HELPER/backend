@@ -20,6 +20,7 @@ type MenuController interface {
 	CreateMenu(ctx echo.Context) error
 	GetMenu(ctx echo.Context) error
 	GetMenuById(ctx echo.Context) error
+	DeleteMenuById(ctx echo.Context) error
 }
 
 func NewMenuController(params menuControllerParams) MenuController {
@@ -86,15 +87,6 @@ func (c menuControllerParams) GetMenu(ctx echo.Context) error {
 	return resp.JSON(ctx)
 }
 
-// CreateOrder godoc
-// @Summary Get menu by id
-// @Description Get menu by id
-// @Tags menu
-// @Accept  json
-// @Produce  json
-// @Param id path string true "menu id"
-// @Success 200 {object} dto.MenuDTO
-// @Router /api/v1/menu/ [get]
 func (c menuControllerParams) GetMenuById(ctx echo.Context) error {
 	idInString := ctx.Param("id")
 	id, _ := strconv.ParseUint(idInString, 10, 32)

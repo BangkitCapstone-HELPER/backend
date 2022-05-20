@@ -25,6 +25,7 @@ type Transaction struct {
 	MenuID        uint
 	TransactionID uint
 	Count         int
+	Remaining     int `gorm:"default:0"`
 	Status        transaction_status.TransactionStatus
 	Amount        int
 	Address       string `gorm:"size:255"`

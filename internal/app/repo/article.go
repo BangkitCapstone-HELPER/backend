@@ -4,12 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/go-redis/redis/v8"
-	"time"
-
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/constants"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/lib"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao"
+	"github.com/go-redis/redis/v8"
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 )
@@ -41,13 +39,13 @@ func (p *articleRepoParams) GetAllArticle() ([]dao.Article, error) {
 
 			return []dao.Article{}, err
 		}
-		json, err2 := json.Marshal(articles)
-		if err2 != nil {
-			return []dao.Article{}, err2
-		}
-		err3 := p.Redis.Cache.Set(context, "article", json, 10*time.Hour).Err()
-		if err3 != nil {
-			return []dao.Article{}, err3
+		//json, err2 := json.Marshal(articles)
+		//if err2 != nil {
+		//	return []dao.Article{}, err2
+		//}
+		//err3 := p.Redis.Cache.Set(context, "article", json, 10*time.Hour).Err()
+		if err != nil {
+			return []dao.Article{}, err
 		}
 	} else {
 		err = json.Unmarshal([]byte(val), &articles)

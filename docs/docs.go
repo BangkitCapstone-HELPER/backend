@@ -85,7 +85,7 @@ const docTemplate = `{
         },
         "/api/v1/menu/": {
             "get": {
-                "description": "Get menu by id",
+                "description": "Get all menu",
                 "consumes": [
                     "application/json"
                 ],
@@ -95,21 +95,15 @@ const docTemplate = `{
                 "tags": [
                     "menu"
                 ],
-                "summary": "Get menu by id",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "menu id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
+                "summary": "Get all menu",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.MenuDTO"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.MenuDTO"
+                            }
                         }
                     }
                 }
@@ -270,6 +264,53 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/user": {
+            "patch": {
+                "description": "Update User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "update user",
+                        "name": "user_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateUserDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/lib.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/user/": {
             "get": {
                 "description": "Get User By ID",
@@ -383,51 +424,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            },
-            "patch": {
-                "description": "Update User",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "Update User",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "update user",
-                        "name": "user_info",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.UpdateUserDTO"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.UserDTO"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/lib.Response"
-                        }
-                    }
-                }
             }
         },
         "/api/v1/user/login": {
@@ -462,6 +458,47 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/v1/user/password/change": {
+            "post": {
+                "description": "Change Password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Change Password",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "create user",
+                        "name": "user_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ChangePasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserDTO"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -489,6 +526,21 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.ChangePasswordRequest": {
+            "type": "object",
+            "required": [
+                "new_password"
+            ],
+            "properties": {
+                "new_password": {
+                    "type": "string",
+                    "minLength": 8
+                },
+                "old_password": {
                     "type": "string"
                 }
             }
@@ -552,7 +604,6 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "email",
-                "image",
                 "name",
                 "password"
             ],
@@ -687,6 +738,9 @@ const docTemplate = `{
                     "$ref": "#/definitions/dto.MenuDTO"
                 },
                 "menu_id": {
+                    "type": "integer"
+                },
+                "remaining": {
                     "type": "integer"
                 },
                 "status": {

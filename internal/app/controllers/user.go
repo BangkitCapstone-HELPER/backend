@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -25,6 +24,7 @@ type UserController interface {
 	GetUser(ctx echo.Context) error
 	GetUserById(ctx echo.Context) error
 	CreateUser(ctx echo.Context) error
+	ChangePassword(ctx echo.Context) error
 	Login(ctx echo.Context) error
 	UpdateUser(ctx echo.Context) error
 }
@@ -46,7 +46,7 @@ func NewUserController(params userControllerParams) UserController {
 func (c userControllerParams) GetUser(ctx echo.Context) error {
 	token, _ := utils.ExtractToken(ctx)
 	user, err := utils.GetUserFromToken(token, c.JWT)
-	fmt.Println(user)
+
 	var resp lib.Response
 	if err != nil {
 		resp = lib.Response{
@@ -78,7 +78,7 @@ func (c userControllerParams) GetUser(ctx echo.Context) error {
 // @Param user_info body dto.UpdateUserDTO true "update user"
 // @Success 200 {object} dto.UserDTO
 // @Failure 400 {object} lib.Response
-// @Router /api/v1/user/info [patch]
+// @Router /api/v1/user [patch]
 func (c userControllerParams) UpdateUser(ctx echo.Context) error {
 	updateUser := dto.UpdateUserDTO{}
 	ctx.Bind(&updateUser)
@@ -164,6 +164,42 @@ func (c userControllerParams) CreateUser(ctx echo.Context) error {
 		resp = lib.Response{
 			Status: http.StatusOK,
 			Data:   result,
+		}
+	}
+	return resp.JSON(ctx)
+}
+
+// CreateOrder godoc
+// @Summary Change Password
+// @Description Change Password
+// @Tags user
+// @Accept  json
+// @Produce  json
+// @Param Authorization header string true "user token"
+// @Param user_info body dto.ChangePasswordRequest true "create user"
+// @Success 200 {object} dto.UserDTO
+// @Router /api/v1/user/password/change [post]
+func (c userControllerParams) ChangePassword(ctx echo.Context) error {
+	changePasswordRequest := dto.ChangePasswordRequest{}
+
+	if err := ctx.Bind(&changePasswordRequest); err != nil {
+		return err
+	}
+	token, _ := utils.ExtractToken(ctx)
+	user, err := utils.GetUserFromToken(token, c.JWT)
+	result, err := c.Service.ChangePassword(user.ID, changePasswordRequest)
+
+	var resp lib.Response
+	if err != nil {
+		resp = lib.Response{
+			Status:  http.StatusBadRequest,
+			Data:    result,
+			Message: err.Error(),
+		}
+	} else {
+		resp = lib.Response{
+			Status:  http.StatusOK,
+			Message: "Password Change Successfully",
 		}
 	}
 	return resp.JSON(ctx)

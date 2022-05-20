@@ -25,6 +25,7 @@ type UserService interface {
 	GetUserByEmail(email string) (dao.User, error)
 	CreateUser(user dto.CreateUserRequestDTO) (dto.UserDTO, error)
 	UpdateUser(userId uint, userDTO dto.UpdateUserDTO) (dto.UserDTO, error)
+	ChangePassword(userId uint64, userDTO dto.ChangePasswordRequest) (dto.UserDTO, error)
 	Login(loginRequest dto.LoginRequest) (dto.LoginResponse, error)
 }
 
@@ -45,6 +46,25 @@ func (u *userServiceParams) GetUserByEmail(email string) (dao.User, error) {
 	return u.UserRepo.GetUserByEmail(email)
 }
 
+func (u *userServiceParams) ChangePassword(userId uint64, req dto.ChangePasswordRequest) (dto.UserDTO, error) {
+
+	user, err := u.UserRepo.GetUser(userId)
+	if err != nil {
+		return dto.UserDTO{}, errors.ErrWrongAuthorization
+	}
+
+	passwordValid := u.Hash.Compare(req.OldPassword, user.Password)
+	if !passwordValid {
+		return dto.UserDTO{}, errors.ErrPasswordDoesNotMatch
+	}
+	if hashed, hasherr := u.Hash.Hash(req.NewPassword); hasherr != nil {
+		return dto.UserDTO{}, hasherr
+	} else {
+		newUser, err2 := u.UserRepo.ChangePassword(userId, hashed)
+		return dto.NewUserDTO(newUser), err2
+	}
+
+}
 func (u *userServiceParams) CreateUser(user dto.CreateUserRequestDTO) (dto.UserDTO, error) {
 
 	if _, err := u.UserRepo.GetUserByEmail(user.Email); err == nil {

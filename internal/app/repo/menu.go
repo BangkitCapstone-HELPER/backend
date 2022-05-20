@@ -4,8 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"time"
-
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm/clause"
 
@@ -74,14 +72,14 @@ func (p *menuRepoParams) GetAllMenu() ([]dao.Menu, error) {
 
 			return []dao.Menu{}, err
 		}
-		json, err2 := json.Marshal(menus)
-		if err2 != nil {
-			return []dao.Menu{}, err2
-		}
-		err3 := p.Redis.Cache.Set(context, "menu", json, 10*time.Hour).Err()
-		if err3 != nil {
-			return []dao.Menu{}, err3
-		}
+		//json, err2 := json.Marshal(menus)
+		//if err2 != nil {
+		//	return []dao.Menu{}, err2
+		//}
+		//err3 := p.Redis.Cache.Set(context, "menu", json, 10*time.Hour).Err()
+		//if err3 != nil {
+		return []dao.Menu{}, err
+		//}
 	} else {
 		err = json.Unmarshal([]byte(val), &menus)
 		if err != nil {

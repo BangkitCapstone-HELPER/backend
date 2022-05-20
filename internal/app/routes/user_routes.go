@@ -37,6 +37,7 @@ func (a *userRouteParams) Setup() {
 	r := a.Handler.RouterV1().Group("/user")
 	r.POST("/register", a.Controller.CreateUser)
 	r.GET("/:id", a.Controller.GetUserById, a.AuthMiddleware.Setup(constants.PermissionNonAdmin))
+	r.POST("/password/change", a.Controller.ChangePassword)
 	r.GET("/info", a.Controller.GetUser)
 	r.POST("/", a.Controller.CreateUser)
 	r.PATCH("/", a.Controller.UpdateUser)
