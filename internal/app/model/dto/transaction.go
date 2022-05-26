@@ -3,20 +3,25 @@ package dto
 import (
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao"
 	transaction_status "github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao/trxStatus"
+	"gorm.io/gorm"
+	"time"
 )
 
 type (
 	CreateTransactionRequestDTO struct {
-		Address     string  `json:"address"`
-		UserID      uint    `json:"user_id"`
-		Amount      int     `json:"amount"`
-		Lat         float64 `json:"lat"`
-		Lng         float64 `json:"lng"`
-		IsMorning   bool    `json:"is_morning"`
-		IsNoon      bool    `json:"is_noon"`
-		IsAfternoon bool    `json:"is_afternoon"`
-		MenuID      uint    `json:"menu_id"`
-		Count       int     `json:"count"`
+		Address     string    `json:"address"`
+		UserID      uint      `json:"user_id"`
+		Amount      int       `json:"amount"`
+		Lat         float64   `json:"lat"`
+		Lng         float64   `json:"lng"`
+		IsMorning   bool      `json:"is_morning"`
+		IsNoon      bool      `json:"is_noon"`
+		IsAfternoon bool      `json:"is_afternoon"`
+		MenuID      uint      `json:"menu_id"`
+		Count       int       `json:"count"`
+		CreatedAt   time.Time `json:"created_at"`
+		UpdatedAt   time.Time `json:"updated_at"`
+		Upload      string    `json:"upload"`
 	}
 	//TransactionItemDTO struct {
 	//	IsMorning   bool `json:"is_morning"`
@@ -41,11 +46,15 @@ type (
 		Lat         float64                              `json:"lat"`
 		Lng         float64                              `json:"lng"`
 		Remaining   int                                  `json:"remaining"`
+		Upload      string                               `json:"upload"`
+		CreatedAt   time.Time                            `json:"created_at"`
+		UpdatedAt   time.Time                            `json:"updated_at"`
 	}
 
 	UpdateTransactionDTO struct {
 		ID     uint                                 `json:"id"`
 		Status transaction_status.TransactionStatus `json:"status"`
+		Upload string                               `json:"upload"`
 	}
 )
 
@@ -72,7 +81,12 @@ func (c CreateTransactionRequestDTO) ToDAO() dao.Transaction {
 		Count:       c.Count,
 		Status:      transaction_status.Pending,
 		Address:     c.Address,
-		UserID:      c.UserID,
+		Upload:      c.Upload,
+		Model:       gorm.Model{},
+		Menu:        dao.Menu{},
+		Amount:      c.Amount,
+		Lat:         c.Lat,
+		Lng:         c.Lng,
 	}
 }
 
@@ -103,6 +117,9 @@ func NewTransactionDTO(transaction dao.Transaction) TransactionDTO {
 		Amount:      transaction.Amount,
 		Remaining:   transaction.Remaining,
 		Menu:        NewMenuDTO(transaction.Menu),
+		Upload:      transaction.Upload,
+		CreatedAt:   transaction.CreatedAt,
+		UpdatedAt:   transaction.UpdatedAt,
 	}
 }
 
@@ -133,5 +150,8 @@ func ToTransactionDTO(transaction dao.Transaction) TransactionDTO {
 		Amount:      transaction.Amount,
 		Remaining:   transaction.Remaining,
 		Menu:        NewMenuDTO(transaction.Menu),
+		Upload:      transaction.Upload,
+		CreatedAt:   transaction.CreatedAt,
+		UpdatedAt:   transaction.UpdatedAt,
 	}
 }

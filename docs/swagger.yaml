@@ -50,6 +50,8 @@ definitions:
         type: integer
       count:
         type: integer
+      created_at:
+        type: string
       is_afternoon:
         type: boolean
       is_morning:
@@ -62,6 +64,10 @@ definitions:
         type: number
       menu_id:
         type: integer
+      updated_at:
+        type: string
+      upload:
+        type: string
       user_id:
         type: integer
     type: object
@@ -93,13 +99,8 @@ definitions:
         type: string
       items:
         items:
-          $ref: '#/definitions/dto.ItemDTO'
+          type: string
         type: array
-    type: object
-  dto.ItemDTO:
-    properties:
-      name:
-        type: string
     type: object
   dto.LoginRequest:
     properties:
@@ -142,6 +143,8 @@ definitions:
         type: integer
       count:
         type: integer
+      created_at:
+        type: string
       id:
         type: integer
       is_afternoon:
@@ -162,6 +165,10 @@ definitions:
         type: integer
       status:
         type: string
+      updated_at:
+        type: string
+      upload:
+        type: string
       user_id:
         type: integer
     type: object
@@ -171,12 +178,16 @@ definitions:
         type: integer
       status:
         type: string
+      upload:
+        type: string
     type: object
   dto.UpdateUserDTO:
     properties:
       address:
         type: string
-      isAdmin:
+      image:
+        type: string
+      is_admin:
         type: boolean
       phone_number:
         type: string
@@ -205,7 +216,7 @@ definitions:
       status:
         type: integer
     type: object
-host: my-app-65ly4.ondigitalocean.app
+host: localhost:8080
 info:
   contact:
     email: support@swagger.io
@@ -257,6 +268,30 @@ paths:
       summary: Create a new article
       tags:
       - article
+  /api/v1/file/:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create file
+      parameters:
+      - description: this is a test file
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: file folder
+        in: formData
+        name: folder
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: Create file
+      tags:
+      - file
   /api/v1/menu/:
     delete:
       consumes:
@@ -320,6 +355,12 @@ paths:
       consumes:
       - application/json
       description: Get all transaction
+      parameters:
+      - description: user token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -337,6 +378,11 @@ paths:
       - application/json
       description: update transaction
       parameters:
+      - description: user token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: create transaction
         in: body
         name: transaction_info
@@ -360,6 +406,11 @@ paths:
       - application/json
       description: Create a new transaction with the input paylod
       parameters:
+      - description: user token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       - description: create transaction
         in: body
         name: transaction_info
@@ -376,37 +427,6 @@ paths:
       summary: Create a new transaction
       tags:
       - transaction
-  /api/v1/user:
-    patch:
-      consumes:
-      - application/json
-      description: Update User
-      parameters:
-      - description: user token
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      - description: update user
-        in: body
-        name: user_info
-        required: true
-        schema:
-          $ref: '#/definitions/dto.UpdateUserDTO'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.UserDTO'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/lib.Response'
-      summary: Update User
-      tags:
-      - user
   /api/v1/user/:
     get:
       consumes:
@@ -435,6 +455,36 @@ paths:
           schema:
             $ref: '#/definitions/lib.Response'
       summary: Get User By ID
+      tags:
+      - user
+    patch:
+      consumes:
+      - application/json
+      description: Update User
+      parameters:
+      - description: user token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: update user
+        in: body
+        name: user_info
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UserDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/lib.Response'
+      summary: Update User
       tags:
       - user
     post:

@@ -10,4 +10,5 @@ var Module = fx.Options(
 	fx.Provide(NewMenuService),
 	fx.Provide(NewArticleService),
 	fx.Provide(NewTransactionService),
+	fx.Provide(NewFileService),
 )

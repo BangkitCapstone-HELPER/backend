@@ -10,6 +10,7 @@ var Module = fx.Options(
 	fx.Provide(NewRoutes),
 	fx.Provide(NewMenuRoutes),
 	fx.Provide(NewArticleRoutes),
+	fx.Provide(NewFileRoutes),
 	fx.Provide(NewTransactionRoutes),
 )
 
@@ -28,12 +29,14 @@ func NewRoutes(
 	menuRoutes MenuRoute,
 	articleRoutes ArticleRoute,
 	transactionRoutes TransactionRoute,
+	fileRoutes FileRoute,
 ) Routes {
 	return Routes{
 		userRoutes,
 		menuRoutes,
 		articleRoutes,
 		transactionRoutes,
+		fileRoutes,
 	}
 }
 

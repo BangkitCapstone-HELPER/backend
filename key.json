@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "serantau",
+  "private_key_id": "06086cbd31f3fd55118e6494fa62f932d79f12ef",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDDF1zkY29gH3L7\ntc1rPwWmykgt6ROxZJLh9Z672iqnYXPJZgncYcDHHk637rb9q/s6/OUa1aup7eOU\nsmLOu9IUxL8AclwYlBrpQGHOQ5ver9m5sDht5YtVIcKK+JnQ5Ajgf1oVNXiNwUwd\nlOLJ3myuipJFhU5RUOkxJQrr33Z2CUUniXhC6ijozIdGv87ERp8cPn0Ce9k/6j7p\nY/bj4XOCyTqBayP8FMk5WXAELzO4OY8ysPnBt4m+ImEDnupMKjXzTLNpnSReUswU\naPLk3ZjNHJ0tybiNWDjtOgwbgBIfpOmxyg7g+AmQKjqD6b1I/VYPnhrNs+t2hKR0\ndcCtirlFAgMBAAECggEAVHSBtzFAntkees8aTUosFSdOlelnqAzE9WLSQ7pPasRq\nTo6IyEndHZYGN+P0fd581O1z9Oj49ohQVCfhVGPEr0747KWVLuK2v7EqZhOon396\n/sLFuvV7GvCRen3igKanHSCki7fpJ1y9qbSxdPiADhNY/RWXcOZY/PhvQOstKi1Z\nrW+PvJ8xul6dL2rV1D8uQ5FMQVv67Rq/ULTzDJBtkVguTBvO+cbOKEqdElOZv3uu\no5/7FtNFUKPEPzaaLA55FycxDgsghDbcbaaAfpgZSzDfj3tBm2Xy4l7xun/zuXWy\np7dzR71s9T8eyNjsWNO4BqX/am/nUKmy/FdBYbYaBQKBgQDhlm7JGAna03++MClP\n3qOzth79UqVPdHlrzMKHa3t/R/piUczI5afwSW1W6MFg6S53DS8m13utGEOlHtvr\n5eZz6SYZZd0JGDrpaGkXz1z8oyvr0FmOl6QEgLvmZY1Y9oOMbAd0wAmVAweoI5a0\n4Nnn/UF3L8J66lHC7nqYwP2CZwKBgQDdZG1/n0ATPLg63NtLzm2rHoSiLVBb9u+b\nc7iZtncY23qmvFhQ8vvQKmnRAKRL5EMjDYtvsADUiWs6TRl15elVjACl0vNmIMUA\nKhd1nbsU/gEXJQRhOwiv98l2wQXJmO8oXXtBP1e2+9mne2fpNysZ4YutUCZ/tfC+\nS8mjeviTcwKBgBUI8PWhXzHfbNbwKLoA2aTlQ4h9j1qUUsohgrYb6J0auhc253CI\nMZuvTRnAhF+j/qgtO4tUpnyieZRJB1q8yjteryXJIM47Syr+iGYm+NW55VuMxv0L\n2MhutJasO3zjJ6sNW7igO4SAjtM31lKxcMA4FkWl122csdkKYbYisMDbAoGBALFA\nFILXBz/fn0hRRqncreUQ2/PT/8CBZbi535QBiDy4i+wuYy78OyugqXOR5fh02mOY\nFojnCuMe2mClFbtUxYmeO26IBCNCHTdSe9HI5N2bt1fGZUlLMFtiMUQIqg+Lh/5z\nSZklk56G6O20Wa9YYgOolmG+B/S7v/E7UEa4z4eNAoGAbeRM3jWcfYizgBOgh2mt\nepurFTXaItqoixFOkXhgh1cO0YHbxdM5zBZqhl0f7CJHbcScjK1ZncTUdsYtnrol\naSEuDiYoA646R3j6vqTiJjvB8xA3ManDAGsKgs1CpJQqmJnKL2bw+FoSYZYpPBE0\nRNIFfxKWNAxak7fi4Me9jUc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "serantau-uploader@serantau.iam.gserviceaccount.com",
+  "client_id": "107714752313426676474",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/serantau-uploader%40serantau.iam.gserviceaccount.com"
+}

@@ -78,7 +78,7 @@ func (c userControllerParams) GetUser(ctx echo.Context) error {
 // @Param user_info body dto.UpdateUserDTO true "update user"
 // @Success 200 {object} dto.UserDTO
 // @Failure 400 {object} lib.Response
-// @Router /api/v1/user [patch]
+// @Router /api/v1/user/ [patch]
 func (c userControllerParams) UpdateUser(ctx echo.Context) error {
 	updateUser := dto.UpdateUserDTO{}
 	ctx.Bind(&updateUser)

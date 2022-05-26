@@ -1,13 +1,10 @@
 package repo
 
 import (
-	"context"
-	"encoding/json"
 	"errors"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/constants"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/lib"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao"
-	"github.com/go-redis/redis/v8"
 	"go.uber.org/fx"
 	"gorm.io/gorm"
 )
@@ -29,30 +26,30 @@ func NewArticleRepo(params articleRepoParams) ArticleRepo {
 
 func (p *articleRepoParams) GetAllArticle() ([]dao.Article, error) {
 	articles := []dao.Article{}
-	context := context.Background()
-	val, err := p.Redis.Cache.Get(context, "article").Result()
-	if err == redis.Nil {
-		if err := p.Db.Find(&articles).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return []dao.Article{}, constants.DatabaseRecordNotFound
-			}
+	//context := context.Background()
+	//val, err := p.Redis.Cache.Get(context, "article").Result()
+	//if err == redis.Nil {
+	if err := p.Db.Find(&articles).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return []dao.Article{}, constants.DatabaseRecordNotFound
+		}
 
-			return []dao.Article{}, err
-		}
-		//json, err2 := json.Marshal(articles)
-		//if err2 != nil {
-		//	return []dao.Article{}, err2
-		//}
-		//err3 := p.Redis.Cache.Set(context, "article", json, 10*time.Hour).Err()
-		if err != nil {
-			return []dao.Article{}, err
-		}
-	} else {
-		err = json.Unmarshal([]byte(val), &articles)
-		if err != nil {
-			return []dao.Article{}, err
-		}
+		return []dao.Article{}, err
 	}
+	//json, err2 := json.Marshal(articles)
+	//if err2 != nil {
+	//	return []dao.Article{}, err2
+	//}
+	//err3 := p.Redis.Cache.Set(context, "article", json, 10*time.Hour).Err()
+	//	if err != nil {
+	//		return []dao.Article{}, err
+	//	}
+	//} else {
+	//	err = json.Unmarshal([]byte(val), &articles)
+	//	if err != nil {
+	//		return []dao.Article{}, err
+	//	}
+	//}
 	return articles, nil
 }
 

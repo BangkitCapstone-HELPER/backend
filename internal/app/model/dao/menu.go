@@ -1,21 +1,22 @@
 package dao
 
 import (
+	"github.com/lib/pq"
 	"gorm.io/gorm"
 )
 
-type Item struct {
-	gorm.Model
-	// ID          uuid.UUID `gorm:"index;primaryKey;type:uuid;default:uuid_generate_v4()"`
-	Name      string `gorm:"not null;size:255"`
-	DayMenuID uint
-}
+//type Item struct {
+//	gorm.Model
+//	// ID          uuid.UUID `gorm:"index;primaryKey;type:uuid;default:uuid_generate_v4()"`
+//	Name      string `gorm:"not null;size:255"`
+//	DayMenuID uint
+//}
 
 type DayMenu struct {
 	gorm.Model
-	Image  string `gorm:"size:255"`
-	Day    string `gorm:"index;size:255"`
-	Items  []Item `gorm:"foreignKey:DayMenuID"`
+	Image  string         `gorm:"size:255"`
+	Day    string         `gorm:"index;size:255"`
+	Items  pq.StringArray `gorm:"type:text[]"`
 	MenuID uint
 }
 

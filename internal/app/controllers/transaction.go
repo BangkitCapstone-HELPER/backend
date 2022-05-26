@@ -32,6 +32,7 @@ func NewTransactionController(params transactionControllerParams) TransactionCon
 // @Tags transaction
 // @Accept  json
 // @Produce  json
+// @Param Authorization header string true "user token"
 // @Param transaction_info body dto.CreateTransactionRequestDTO true "create transaction"
 // @Success 200 {object} dto.TransactionDTO
 // @Router /api/v1/transaction/ [post]
@@ -72,6 +73,7 @@ func (c transactionControllerParams) CreateTransaction(ctx echo.Context) error {
 // @Tags transaction
 // @Accept       json
 // @Produce      json
+// @Param Authorization header string true "user token"
 // @Success 200 {object} []dto.TransactionDTO
 // @Router /api/v1/transaction/ [get]
 func (c transactionControllerParams) GetTransactionByUID(ctx echo.Context) error {
@@ -103,6 +105,7 @@ func (c transactionControllerParams) GetTransactionByUID(ctx echo.Context) error
 // @Tags transaction
 // @Accept       json
 // @Produce      json
+// @Param Authorization header string true "user token"
 // @Param transaction_info body dto.UpdateTransactionDTO true "create transaction"
 // @Success 200 {object} []dto.TransactionDTO
 // @Router /api/v1/transaction/ [patch]

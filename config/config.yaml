@@ -11,19 +11,27 @@ HTTP:
 
 Database:
     Engine: postgres
-    Name: helper
-    Host: database-1.cypz2uzea0qm.ap-southeast-1.rds.amazonaws.com
+    Name: serantau
+    Host: 35.240.162.20
     Port: 5432
     Username: postgres
-    Password: MZterSfznMD4jkxbp01b
+    Password: SqGKguYA5XZ6_1rT
+
 Cache:
     Host: redis-16349.c14.us-east-1-3.ec2.cloud.redislabs.com
     Port: 16349
     Password: lnoScC48AHSXHsTQWQuMGiU2qXT6KAW0
     Database: redis-iecom-backend-dev-11018383
+
 JWT:
     Algorithm: HS256
     Key: secret
     Exp: 50000
+
 File:
-    StoragePath: ./static
+    StoragePath: ./public
+
+CloudStorage:
+    BucketName: serantau
+    ProjectID : serantau
+    Path: ./key.json

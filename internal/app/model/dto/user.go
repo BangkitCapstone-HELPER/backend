@@ -27,7 +27,8 @@ type (
 	UpdateUserDTO struct {
 		PhoneNumber string `json:"phone_number"`
 		Address     string `json:"address"`
-		IsAdmin     bool   `json:"isAdmin"`
+		IsAdmin     bool   `json:"is_admin"`
+		Image       string `json:"image"`
 	}
 
 	LoginRequest struct {
@@ -51,10 +52,12 @@ type (
 
 func (c CreateUserRequestDTO) ToDAO() dao.User {
 	return dao.User{
-		Name:     c.Name,
-		Email:    c.Email,
-		Password: c.Password,
-		Image:    c.Image,
+		Name:        c.Name,
+		Email:       c.Email,
+		Password:    c.Password,
+		Image:       c.Image,
+		PhoneNumber: c.PhoneNumber,
+		Address:     c.Address,
 	}
 }
 

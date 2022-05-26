@@ -1,6 +1,7 @@
 package services
 
 import (
+	"encoding/json"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/model/dto"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/repo"
 	"go.uber.org/fx"
@@ -43,7 +44,18 @@ func (u *transactionServiceParams) GetAllTransactionByUID(userId uint) ([]dto.Tr
 }
 
 func (u *transactionServiceParams) UpdateTransaction(trx dto.UpdateTransactionDTO) (dto.TransactionDTO, error) {
-	transaction, err := u.TransactionRepo.UpdateTransaction(trx.ID, trx.Status)
+	var updateMap map[string]interface{}
+	data, _ := json.Marshal(trx)
+	json.Unmarshal(data, &updateMap)
+	for k, v := range updateMap {
+		if v == "" {
+			delete(updateMap, k)
+		}
+		if v == false {
+			delete(updateMap, k)
+		}
+	}
+	transaction, err := u.TransactionRepo.UpdateTransaction(trx.ID, updateMap)
 
 	if err != nil {
 		return dto.TransactionDTO{}, err

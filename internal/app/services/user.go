@@ -16,6 +16,7 @@ type userServiceParams struct {
 	UserRepo repo.UserRepo
 	JWT      lib.JWT
 	Hash     lib.Hash
+	//Email    lib.Email
 }
 
 type UserService interface {
@@ -85,7 +86,10 @@ func (u *userServiceParams) UpdateUser(userId uint, userDTO dto.UpdateUserDTO) (
 	data, _ := json.Marshal(userDTO)
 	json.Unmarshal(data, &updateMap)
 	for k, v := range updateMap {
-		if v == nil {
+		if v == "" {
+			delete(updateMap, k)
+		}
+		if v == false {
 			delete(updateMap, k)
 		}
 	}
@@ -113,7 +117,10 @@ func (u *userServiceParams) Login(loginRequest dto.LoginRequest) (dto.LoginRespo
 	if err != nil {
 		return dto.LoginResponse{}, err
 	}
-
+	//err = u.Email.SendMail([]string{"rahmat.fatih21@gmail.com"}, "Test Email", "Hello <br>Test</br>")
+	if err != nil {
+		return dto.LoginResponse{}, err
+	}
 	return dto.LoginResponse{
 		User: dto.UserDTO{
 			Name:        user.Name,

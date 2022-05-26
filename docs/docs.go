@@ -83,6 +83,42 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/file/": {
+            "post": {
+                "description": "Create file",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "summary": "Create file",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "this is a test file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "file folder",
+                        "name": "folder",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/api/v1/menu/": {
             "get": {
                 "description": "Get all menu",
@@ -184,6 +220,15 @@ const docTemplate = `{
                     "transaction"
                 ],
                 "summary": "Get all transaction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -209,6 +254,13 @@ const docTemplate = `{
                 ],
                 "summary": "Create a new transaction",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "create transaction",
                         "name": "transaction_info",
@@ -242,6 +294,13 @@ const docTemplate = `{
                 "summary": "update transaction",
                 "parameters": [
                     {
+                        "type": "string",
+                        "description": "user token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "create transaction",
                         "name": "transaction_info",
                         "in": "body",
@@ -259,53 +318,6 @@ const docTemplate = `{
                             "items": {
                                 "$ref": "#/definitions/dto.TransactionDTO"
                             }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/user": {
-            "patch": {
-                "description": "Update User",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "user"
-                ],
-                "summary": "Update User",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "user token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "update user",
-                        "name": "user_info",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.UpdateUserDTO"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.UserDTO"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/lib.Response"
                         }
                     }
                 }
@@ -383,6 +395,51 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.UserDTO"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "user token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "update user",
+                        "name": "user_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateUserDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.UserDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/lib.Response"
                         }
                     }
                 }
@@ -577,6 +634,9 @@ const docTemplate = `{
                 "count": {
                     "type": "integer"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "is_afternoon": {
                     "type": "boolean"
                 },
@@ -594,6 +654,12 @@ const docTemplate = `{
                 },
                 "menu_id": {
                     "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "upload": {
+                    "type": "string"
                 },
                 "user_id": {
                     "type": "integer"
@@ -641,16 +707,8 @@ const docTemplate = `{
                 "items": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/dto.ItemDTO"
+                        "type": "string"
                     }
-                }
-            }
-        },
-        "dto.ItemDTO": {
-            "type": "object",
-            "properties": {
-                "name": {
-                    "type": "string"
                 }
             }
         },
@@ -716,6 +774,9 @@ const docTemplate = `{
                 "count": {
                     "type": "integer"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -746,6 +807,12 @@ const docTemplate = `{
                 "status": {
                     "type": "string"
                 },
+                "updated_at": {
+                    "type": "string"
+                },
+                "upload": {
+                    "type": "string"
+                },
                 "user_id": {
                     "type": "integer"
                 }
@@ -759,6 +826,9 @@ const docTemplate = `{
                 },
                 "status": {
                     "type": "string"
+                },
+                "upload": {
+                    "type": "string"
                 }
             }
         },
@@ -768,7 +838,10 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
-                "isAdmin": {
+                "image": {
+                    "type": "string"
+                },
+                "is_admin": {
                     "type": "boolean"
                 },
                 "phone_number": {
@@ -818,7 +891,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "my-app-65ly4.ondigitalocean.app",
+	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Helper Backend",

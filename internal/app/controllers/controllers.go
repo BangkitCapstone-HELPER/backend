@@ -10,4 +10,5 @@ var Module = fx.Options(
 	fx.Provide(NewMenuController),
 	fx.Provide(NewArticleController),
 	fx.Provide(NewTransactionController),
+	fx.Provide(NewFileController),
 )

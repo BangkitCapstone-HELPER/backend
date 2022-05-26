@@ -17,11 +17,12 @@ func NewDatabase(cfg config.DatabaseConfig) Database {
 		panic("error connecting to database")
 	}
 	db.AutoMigrate(&dao.User{})
-	db.AutoMigrate(&dao.Item{})
+	//db.AutoMigrate(&dao.Item{})
 	db.AutoMigrate(&dao.DayMenu{})
 	db.AutoMigrate(&dao.Menu{})
 	db.AutoMigrate(&dao.Article{})
 	db.AutoMigrate(&dao.Transaction{})
+	db.AutoMigrate(&dao.File{})
 	return Database{
 		Db: db,
 	}

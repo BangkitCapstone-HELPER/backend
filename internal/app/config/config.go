@@ -11,4 +11,6 @@ var Module = fx.Options(
 	fx.Provide(NewDatabase),
 	fx.Provide(NewCache),
 	fx.Provide(NewJWT),
+	fx.Provide(NewBucket),
+	fx.Provide(NewFile),
 )

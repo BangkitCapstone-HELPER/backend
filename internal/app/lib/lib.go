@@ -11,4 +11,5 @@ var Module = fx.Options(
 	fx.Provide(NewHash),
 	fx.Provide(NewCache),
 	fx.Provide(NewJWT),
+	fx.Provide(NewBucket),
 )
