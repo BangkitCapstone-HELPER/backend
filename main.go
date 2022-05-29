@@ -18,7 +18,7 @@ import "github.com/BangkitCapstone-HELPER/backend/cmd/rootcmd"
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      localhost:8080
+// @host      my-app-65ly4.ondigitalocean.app
 // @BasePath  /
 func main() {
 	rootcmd.Execute()

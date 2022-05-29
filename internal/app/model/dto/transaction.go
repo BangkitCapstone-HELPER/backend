@@ -74,6 +74,7 @@ func (c CreateTransactionRequestDTO) ToDAO() dao.Transaction {
 	//}
 
 	return dao.Transaction{
+		UserID:      c.UserID,
 		IsMorning:   c.IsMorning,
 		IsNoon:      c.IsNoon,
 		IsAfternoon: c.IsAfternoon,
@@ -106,6 +107,7 @@ func NewTransactionDTO(transaction dao.Transaction) TransactionDTO {
 	//}
 
 	return TransactionDTO{
+		ID:          transaction.ID,
 		IsMorning:   transaction.IsMorning,
 		IsNoon:      transaction.IsNoon,
 		IsAfternoon: transaction.IsAfternoon,
@@ -139,6 +141,7 @@ func ToTransactionDTO(transaction dao.Transaction) TransactionDTO {
 	//}
 
 	return TransactionDTO{
+		ID:          transaction.ID,
 		IsMorning:   transaction.IsMorning,
 		IsNoon:      transaction.IsNoon,
 		IsAfternoon: transaction.IsAfternoon,

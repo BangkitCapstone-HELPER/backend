@@ -216,7 +216,7 @@ definitions:
       status:
         type: integer
     type: object
-host: localhost:8080
+host: my-app-65ly4.ondigitalocean.app
 info:
   contact:
     email: support@swagger.io
