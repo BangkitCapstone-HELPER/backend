@@ -52,6 +52,8 @@ definitions:
         type: integer
       created_at:
         type: string
+      end_date:
+        type: string
       is_afternoon:
         type: boolean
       is_morning:
@@ -64,6 +66,8 @@ definitions:
         type: number
       menu_id:
         type: integer
+      start_date:
+        type: string
       updated_at:
         type: string
       upload:
@@ -145,6 +149,8 @@ definitions:
         type: integer
       created_at:
         type: string
+      end_date:
+        type: string
       id:
         type: integer
       is_afternoon:
@@ -163,6 +169,8 @@ definitions:
         type: integer
       remaining:
         type: integer
+      start_date:
+        type: string
       status:
         type: string
       updated_at:
@@ -216,7 +224,7 @@ definitions:
       status:
         type: integer
     type: object
-host: my-app-65ly4.ondigitalocean.app
+host: backend-vv4osgbu6q-as.a.run.app
 info:
   contact:
     email: support@swagger.io
@@ -290,6 +298,25 @@ paths:
         "200":
           description: ""
       summary: Create file
+      tags:
+      - file
+  /api/v1/file/predict/:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Predict image
+      parameters:
+      - description: this is a test file
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+      summary: Predict image
       tags:
       - file
   /api/v1/menu/:

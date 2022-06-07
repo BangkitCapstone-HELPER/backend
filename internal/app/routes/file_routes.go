@@ -29,4 +29,5 @@ func (a *fileRouteParams) Setup() {
 	r := a.Handler.RouterV1().Group("/file")
 	//r.GET("/:id", a.Controller.GetFile)
 	r.POST("/", a.Controller.UploadFile)
+	r.POST("/predict/", a.Controller.PredictImage)
 }

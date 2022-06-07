@@ -22,6 +22,8 @@ type (
 		CreatedAt   time.Time `json:"created_at"`
 		UpdatedAt   time.Time `json:"updated_at"`
 		Upload      string    `json:"upload"`
+		StartDate   string    `json:"start_date"`
+		EndDate     string    `json:"end_date"`
 	}
 	//TransactionItemDTO struct {
 	//	IsMorning   bool `json:"is_morning"`
@@ -49,6 +51,8 @@ type (
 		Upload      string                               `json:"upload"`
 		CreatedAt   time.Time                            `json:"created_at"`
 		UpdatedAt   time.Time                            `json:"updated_at"`
+		StartDate   string                               `json:"start_date"`
+		EndDate     string                               `json:"end_date"`
 	}
 
 	UpdateTransactionDTO struct {
@@ -88,6 +92,8 @@ func (c CreateTransactionRequestDTO) ToDAO() dao.Transaction {
 		Amount:      c.Amount,
 		Lat:         c.Lat,
 		Lng:         c.Lng,
+		StartDate:   c.StartDate,
+		EndDate:     c.EndDate,
 	}
 }
 
@@ -122,6 +128,10 @@ func NewTransactionDTO(transaction dao.Transaction) TransactionDTO {
 		Upload:      transaction.Upload,
 		CreatedAt:   transaction.CreatedAt,
 		UpdatedAt:   transaction.UpdatedAt,
+		StartDate:   transaction.StartDate,
+		EndDate:     transaction.EndDate,
+		Lng:         transaction.Lng,
+		Lat:         transaction.Lat,
 	}
 }
 
@@ -156,5 +166,9 @@ func ToTransactionDTO(transaction dao.Transaction) TransactionDTO {
 		Upload:      transaction.Upload,
 		CreatedAt:   transaction.CreatedAt,
 		UpdatedAt:   transaction.UpdatedAt,
+		StartDate:   transaction.StartDate,
+		EndDate:     transaction.EndDate,
+		Lng:         transaction.Lng,
+		Lat:         transaction.Lat,
 	}
 }

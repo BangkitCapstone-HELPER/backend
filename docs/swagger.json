@@ -15,7 +15,7 @@
         },
         "version": "1.0"
     },
-    "host": "my-app-65ly4.ondigitalocean.app",
+    "host": "backend-vv4osgbu6q-as.a.run.app",
     "basePath": "/",
     "paths": {
         "/api/v1/article/": {
@@ -101,6 +101,35 @@
                         "type": "string",
                         "description": "file folder",
                         "name": "folder",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/v1/file/predict/": {
+            "post": {
+                "description": "Predict image",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "summary": "Predict image",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "this is a test file",
+                        "name": "file",
                         "in": "formData",
                         "required": true
                     }
@@ -630,6 +659,9 @@
                 "created_at": {
                     "type": "string"
                 },
+                "end_date": {
+                    "type": "string"
+                },
                 "is_afternoon": {
                     "type": "boolean"
                 },
@@ -647,6 +679,9 @@
                 },
                 "menu_id": {
                     "type": "integer"
+                },
+                "start_date": {
+                    "type": "string"
                 },
                 "updated_at": {
                     "type": "string"
@@ -770,6 +805,9 @@
                 "created_at": {
                     "type": "string"
                 },
+                "end_date": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -796,6 +834,9 @@
                 },
                 "remaining": {
                     "type": "integer"
+                },
+                "start_date": {
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"

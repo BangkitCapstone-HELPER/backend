@@ -2,7 +2,6 @@ package lib
 
 import (
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/config"
-	"github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -16,13 +15,13 @@ func NewDatabase(cfg config.DatabaseConfig) Database {
 	if err != nil {
 		panic("error connecting to database")
 	}
-	db.AutoMigrate(&dao.User{})
-	//db.AutoMigrate(&dao.Item{})
-	db.AutoMigrate(&dao.DayMenu{})
-	db.AutoMigrate(&dao.Menu{})
-	db.AutoMigrate(&dao.Article{})
-	db.AutoMigrate(&dao.Transaction{})
-	db.AutoMigrate(&dao.File{})
+	//db.AutoMigrate(&dao.User{})
+	////db.AutoMigrate(&dao.Item{})
+	//db.AutoMigrate(&dao.DayMenu{})
+	//db.AutoMigrate(&dao.Menu{})
+	//db.AutoMigrate(&dao.Article{})
+	//db.AutoMigrate(&dao.Transaction{})
+	//db.AutoMigrate(&dao.File{})
 	return Database{
 		Db: db,
 	}

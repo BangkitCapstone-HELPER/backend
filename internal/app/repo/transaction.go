@@ -27,7 +27,7 @@ func NewTransactionRepo(params transactionRepoParams) TransactionRepo {
 func (t transactionRepoParams) GetTransactionByID(trxId uint) (dao.Transaction, error) {
 	trx := dao.Transaction{}
 
-	if err := t.Db.Preload("Menus.DayMenus").Preload(clause.Associations).First(&trx, trxId).Error; err != nil {
+	if err := t.Db.Preload("Menu.DayMenus").Preload(clause.Associations).First(&trx, trxId).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return dao.Transaction{}, constants.DatabaseRecordNotFound
 		}

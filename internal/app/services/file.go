@@ -1,9 +1,11 @@
 package services
 
 import (
+	"bytes"
 	"context"
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/config"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/lib"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao"
@@ -12,6 +14,7 @@ import (
 	"io"
 	"io/ioutil"
 	"mime/multipart"
+	"net/http"
 	"path"
 	"path/filepath"
 	"strings"
@@ -29,6 +32,7 @@ type fileServiceParams struct {
 type FileService interface {
 	GetFile(code string) ([]byte, dao.File, error)
 	UploadFile(f multipart.FileHeader, folder string) (dao.File, error)
+	PredictImage(f multipart.FileHeader) (map[string]interface{}, error)
 }
 
 func NewFileService(params fileServiceParams) FileService {
@@ -122,6 +126,49 @@ func (u *fileServiceParams) UploadFile(f multipart.FileHeader, folder string) (d
 
 	return uploaded, err
 }
+
+func (u *fileServiceParams) PredictImage(f multipart.FileHeader) (map[string]interface{}, error) {
+	var result map[string]interface{}
+	ctx := context.Background()
+
+	ctx, cancel := context.WithTimeout(ctx, time.Minute*5)
+	defer cancel()
+	blobFile, err := f.Open()
+	if err != nil {
+		return result, err
+	}
+	defer blobFile.Close()
+	body := &bytes.Buffer{}
+	writer := multipart.NewWriter(body)
+	part, err := writer.CreateFormFile("file", f.Filename)
+	if err != nil {
+		return result, err
+	}
+	_, err = io.Copy(part, blobFile)
+	if err != nil {
+		return result, err
+	}
+	writer.Close()
+
+	r, err := http.NewRequest("POST", "http://34.143.187.239", bytes.NewReader(body.Bytes()))
+	if err != nil {
+		return result, err
+	}
+	r.Header.Add("Content-Type", writer.FormDataContentType())
+	client := &http.Client{}
+	resp, err := client.Do(r)
+	if err != nil {
+		return result, err
+	}
+	byte_blob, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return result, err
+	}
+
+	err = json.Unmarshal(byte_blob, &result)
+	return result, err
+}
+
 func md5Hash(source string) string {
 	hash := md5.Sum([]byte(source))
 	return hex.EncodeToString(hash[:])

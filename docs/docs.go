@@ -119,6 +119,35 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/file/predict/": {
+            "post": {
+                "description": "Predict image",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "summary": "Predict image",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "this is a test file",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "/api/v1/menu/": {
             "get": {
                 "description": "Get all menu",
@@ -637,6 +666,9 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "end_date": {
+                    "type": "string"
+                },
                 "is_afternoon": {
                     "type": "boolean"
                 },
@@ -654,6 +686,9 @@ const docTemplate = `{
                 },
                 "menu_id": {
                     "type": "integer"
+                },
+                "start_date": {
+                    "type": "string"
                 },
                 "updated_at": {
                     "type": "string"
@@ -777,6 +812,9 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "end_date": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -803,6 +841,9 @@ const docTemplate = `{
                 },
                 "remaining": {
                     "type": "integer"
+                },
+                "start_date": {
+                    "type": "string"
                 },
                 "status": {
                     "type": "string"
@@ -891,7 +932,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "my-app-65ly4.ondigitalocean.app",
+	Host:             "backend-vv4osgbu6q-as.a.run.app",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Helper Backend",

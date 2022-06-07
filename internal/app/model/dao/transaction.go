@@ -33,4 +33,6 @@ type Transaction struct {
 	Lat           float64 `gorm:"type:decimal(10,8)"`
 	Lng           float64 `gorm:"type:decimal(11,8)"`
 	Upload        string  `gorm:"size:255"`
+	StartDate     string
+	EndDate       string
 }
