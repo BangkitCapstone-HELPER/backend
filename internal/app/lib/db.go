@@ -2,6 +2,7 @@ package lib
 
 import (
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/config"
+	"github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -21,7 +22,7 @@ func NewDatabase(cfg config.DatabaseConfig) Database {
 	//db.AutoMigrate(&dao.Menu{})
 	//db.AutoMigrate(&dao.Article{})
 	//db.AutoMigrate(&dao.Transaction{})
-	//db.AutoMigrate(&dao.File{})
+	db.AutoMigrate(&dao.Recommendation{})
 	return Database{
 		Db: db,
 	}

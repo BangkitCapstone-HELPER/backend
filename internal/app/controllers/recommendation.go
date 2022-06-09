@@ -9,17 +9,17 @@ import (
 	"net/http"
 )
 
-type articleControllerParams struct {
+type recommendationControllerParams struct {
 	fx.In
-	Service services.ArticleService
+	Service services.RecommendationService
 }
 
-type ArticleController interface {
+type RecommendationController interface {
 	CreateArticle(ctx echo.Context) error
 	GetArticle(ctx echo.Context) error
 }
 
-func NewArticleController(params articleControllerParams) ArticleController {
+func NewRecommendationController(params recommendationControllerParams) RecommendationController {
 	return &params
 }
 
@@ -31,9 +31,9 @@ func NewArticleController(params articleControllerParams) ArticleController {
 // @Produce  json
 // @Param article_info body dto.ArticleDTO true "create article"
 // @Success 200 {object} dto.ArticleDTO
-// @Router /api/v1/article/ [post]
-func (c articleControllerParams) CreateArticle(ctx echo.Context) error {
-	article := dto.ArticleDTO{}
+// @Router /api/v1/recommendation/ [post]
+func (c recommendationControllerParams) CreateArticle(ctx echo.Context) error {
+	article := dto.RecommendationDTO{}
 
 	if err := ctx.Bind(&article); err != nil {
 		return err
@@ -64,8 +64,8 @@ func (c articleControllerParams) CreateArticle(ctx echo.Context) error {
 // @Accept       json
 // @Produce      json
 // @Success 200 {object} []dto.ArticleDTO
-// @Router /api/v1/article/ [get]
-func (c articleControllerParams) GetArticle(ctx echo.Context) error {
+// @Router /api/v1/recommendation/ [get]
+func (c recommendationControllerParams) GetArticle(ctx echo.Context) error {
 	result, err := c.Service.GetAllArticle()
 	var resp lib.Response
 	if err != nil {

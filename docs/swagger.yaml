@@ -224,7 +224,7 @@ definitions:
       status:
         type: integer
     type: object
-host: backend-vv4osgbu6q-as.a.run.app
+host: localhost:8080
 info:
   contact:
     email: support@swagger.io
@@ -377,6 +377,44 @@ paths:
       summary: Create a new menu
       tags:
       - menu
+  /api/v1/recommendation/:
+    get:
+      consumes:
+      - application/json
+      description: Get all article
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/dto.ArticleDTO'
+            type: array
+      summary: Get all article
+      tags:
+      - article
+    post:
+      consumes:
+      - application/json
+      description: Create a new article with the input paylod
+      parameters:
+      - description: create article
+        in: body
+        name: article_info
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ArticleDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ArticleDTO'
+      summary: Create a new article
+      tags:
+      - article
   /api/v1/transaction/:
     get:
       consumes:

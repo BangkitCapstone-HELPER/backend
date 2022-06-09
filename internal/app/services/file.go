@@ -6,6 +6,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/config"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/lib"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao"
@@ -157,6 +158,7 @@ func (u *fileServiceParams) PredictImage(f multipart.FileHeader) (map[string]int
 	r.Header.Add("Content-Type", writer.FormDataContentType())
 	client := &http.Client{}
 	resp, err := client.Do(r)
+	fmt.Println(resp)
 	if err != nil {
 		return result, err
 	}

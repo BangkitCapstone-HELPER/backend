@@ -45,8 +45,8 @@ func NewUserController(params userControllerParams) UserController {
 // @Router /api/v1/user/info [get]
 func (c userControllerParams) GetUser(ctx echo.Context) error {
 	token, _ := utils.ExtractToken(ctx)
-	user, err := utils.GetUserFromToken(token, c.JWT)
-
+	temp, err := utils.GetUserFromToken(token, c.JWT)
+	user, err := c.Service.GetUserByEmail(temp.Email)
 	var resp lib.Response
 	if err != nil {
 		resp = lib.Response{
@@ -62,6 +62,8 @@ func (c userControllerParams) GetUser(ctx echo.Context) error {
 				ID:          uint64(user.ID),
 				Address:     user.Address,
 				PhoneNumber: user.PhoneNumber,
+				Image:       user.Image,
+				IsAdmin:     user.IsAdmin,
 			},
 		}
 	}

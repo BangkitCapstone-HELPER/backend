@@ -2,9 +2,11 @@ package services
 
 import (
 	"encoding/json"
+	transaction_status "github.com/BangkitCapstone-HELPER/backend/internal/app/model/dao/trxStatus"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/model/dto"
 	"github.com/BangkitCapstone-HELPER/backend/internal/app/repo"
 	"go.uber.org/fx"
+	"time"
 )
 
 type transactionServiceParams struct {
@@ -37,7 +39,13 @@ func (u *transactionServiceParams) GetAllTransactionByUID(userId uint) ([]dto.Tr
 
 	var result []dto.TransactionDTO
 	for _, transaction := range transactions {
-		result = append(result, dto.ToTransactionDTO(transaction))
+		tempTransaction := dto.ToTransactionDTO(transaction)
+		if tempTransaction.Status == transaction_status.Pending {
+			startDate, _ := time.Parse("2006-01-02T00:00:00Z", tempTransaction.StartDate)
+			days := startDate.Sub(time.Now()).Hours() / 24
+			tempTransaction.Remaining = int(days)
+		}
+		result = append(result, tempTransaction)
 	}
 
 	return result, err

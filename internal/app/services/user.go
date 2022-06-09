@@ -127,6 +127,7 @@ func (u *userServiceParams) Login(loginRequest dto.LoginRequest) (dto.LoginRespo
 			Email:       user.Email,
 			ID:          uint64(user.ID),
 			Address:     user.Address,
+			Image:       user.Image,
 			PhoneNumber: user.PhoneNumber,
 			IsAdmin:     user.IsAdmin,
 		},

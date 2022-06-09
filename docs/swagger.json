@@ -15,7 +15,7 @@
         },
         "version": "1.0"
     },
-    "host": "backend-vv4osgbu6q-as.a.run.app",
+    "host": "localhost:8080",
     "basePath": "/",
     "paths": {
         "/api/v1/article/": {
@@ -224,6 +224,64 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.MenuDTO"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/recommendation/": {
+            "get": {
+                "description": "Get all article",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "Get all article",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ArticleDTO"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new article with the input paylod",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "Create a new article",
+                "parameters": [
+                    {
+                        "description": "create article",
+                        "name": "article_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ArticleDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ArticleDTO"
                         }
                     }
                 }

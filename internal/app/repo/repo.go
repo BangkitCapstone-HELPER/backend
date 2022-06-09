@@ -11,4 +11,5 @@ var Module = fx.Options(
 	fx.Provide(NewArticleRepo),
 	fx.Provide(NewTransactionRepo),
 	fx.Provide(NewFileRepo),
+	fx.Provide(NewRecommendationRepo),
 )

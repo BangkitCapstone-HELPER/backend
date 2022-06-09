@@ -236,6 +236,64 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/v1/recommendation/": {
+            "get": {
+                "description": "Get all article",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "Get all article",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/dto.ArticleDTO"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new article with the input paylod",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "article"
+                ],
+                "summary": "Create a new article",
+                "parameters": [
+                    {
+                        "description": "create article",
+                        "name": "article_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ArticleDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ArticleDTO"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/transaction/": {
             "get": {
                 "description": "Get all transaction",
@@ -932,7 +990,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "backend-vv4osgbu6q-as.a.run.app",
+	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Helper Backend",
