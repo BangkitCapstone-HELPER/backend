@@ -70,8 +70,10 @@ Things you need to use the software and how to install them.
     ```curl
     localhost:8080/docs/
     ```
+You can checkout our Swagger Open API Documentation here
+[https://backend-vv4osgbu6q-as.a.run.app/docs/index.html#](https://backend-vv4osgbu6q-as.a.run.app/docs/index.html#)
 
-Swagger Documentation Looks:
+This is how Swagger Open API Documentation Looks like:
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
     <img src="static/Screenshot_3.png" alt="Logo" >
