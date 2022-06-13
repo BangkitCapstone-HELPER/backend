@@ -71,7 +71,7 @@ Things you need to use the software and how to install them.
     localhost:8080/docs/
     ```
 You can checkout our Swagger Open API Documentation here
-[https://backend-vv4osgbu6q-as.a.run.app/docs/index.html#](https://backend-vv4osgbu6q-as.a.run.app/docs/index.html#)
+[https://serantau-mttriw3ttq-uc.a.run.app/docs/index.html#](https://serantau-mttriw3ttq-uc.a.run.app/docs/index.html#)
 
 This is how Swagger Open API Documentation Looks like:
 <div align="center">
